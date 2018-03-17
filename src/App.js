@@ -1,11 +1,11 @@
 import React from 'react';
-
 import App from 'grommet/components/App';
-import Title from 'grommet/components/Title';
+import Menu from './components/Menu';
+import MainContent from './components/MainContent'
 
 export default () => (
   <App>
-    <Title>Hello World</Title>
-    <p>Hello from a Grommet page!</p>
+    <Menu></Menu>
+    <MainContent></MainContent>
   </App>
 );
