@@ -1,13 +1,17 @@
 import React from 'react'
-import Title from 'grommet/components/Title';
+import Section from 'grommet/components/Section'
+import Headline from 'grommet/components/Headline'
 
 class Menu extends React.Component{
    render() {
      return (
-       <div>
-         <Title>Dit wordt het menu!</Title>
-         <p>Aww yeah!</p>
-       </div>
+       <Section pad='large'
+         justify='center'
+         align='center'>
+         <Headline margin='none'>
+           Coming Soon...
+         </Headline>
+       </Section>
      )
    }
 }
