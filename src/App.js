@@ -1,13 +1,13 @@
 import React from 'react';
-import App from 'grommet/components/App';
-import Menu from './components/Menu';
+import MenuBar from './components/MenuBar';
 import MainContent from './components/MainContent';
-import Article from 'grommet/components/Article'
+import {App, Article} from 'grommet'
+
 
 export default () => (
   <App>
     <Article scrollStep={false}>
-      <Menu />
+      <MenuBar />
       <MainContent />
     </Article>
   </App>
