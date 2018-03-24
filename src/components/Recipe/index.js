@@ -1,12 +1,12 @@
 import React from 'react';
 import {Image, Heading, Accordion, AccordionPanel, Paragraph} from 'grommet';
-import recipe from '../../texts'
+import recipes from '../../texts'
 
-class Recipe extends React.Component{
+class Recipes extends React.Component{
    render() {
      return (
        <div>
-         <Image src='/img/vegan-vegetables-freshhh.jpg'
+         <Image src={recipes[0].img}
           alt='Kan de foto niet laden'
           full={true}
           fit='contain' />
@@ -15,23 +15,23 @@ class Recipe extends React.Component{
           margin='small'
           strong={true}
           tag='h1'>
-          {recipe.title}
+          {recipes[0].title}
          </Heading>
          <Accordion openMulti={true}>
            <AccordionPanel heading='Ingrediënten'>
              <Paragraph>
-               {recipe.ingredients.map((ingredient) =>
+               {recipes[0].ingredients.map((ingredient) =>
                  <p>{ingredient}</p>)}
              </Paragraph>
            </AccordionPanel>
            <AccordionPanel heading='Bereidingswijze'>
              <Paragraph>
-              {recipe.instructions}
+              {recipes[0].instructions}
              </Paragraph>
            </AccordionPanel>
            <AccordionPanel heading='Reacties/Suggesties'>
              <Paragraph>
-              {recipe.comments.map((comment) =>
+              {recipes[0].comments.map((comment) =>
                  <p>{comment}</p>)}
              </Paragraph>
            </AccordionPanel>
@@ -41,4 +41,4 @@ class Recipe extends React.Component{
    }
 }
 
-export default Recipe
+export default recipes[0]
