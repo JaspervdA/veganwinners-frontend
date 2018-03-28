@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, Heading, Accordion, AccordionPanel, Paragraph} from 'grommet';
 import recipes from '../../texts'
 
-class Recipes extends React.Component{
+class Recipe extends React.Component{
    render() {
      return (
        <div>
@@ -21,18 +21,15 @@ class Recipes extends React.Component{
            <AccordionPanel heading='Ingrediënten'>
              <Paragraph>
                {recipes[0].ingredients.map((ingredient) =>
-                 <p>{ingredient}</p>)}
+                 <p key={ingredient.id}>
+                 {ingredient.item}
+                 </p>)
+               }
              </Paragraph>
            </AccordionPanel>
            <AccordionPanel heading='Bereidingswijze'>
              <Paragraph>
               {recipes[0].instructions}
-             </Paragraph>
-           </AccordionPanel>
-           <AccordionPanel heading='Reacties/Suggesties'>
-             <Paragraph>
-              {recipes[0].comments.map((comment) =>
-                 <p>{comment}</p>)}
              </Paragraph>
            </AccordionPanel>
          </Accordion>
@@ -41,4 +38,4 @@ class Recipes extends React.Component{
    }
 }
 
-export default recipes[0]
+export default Recipe

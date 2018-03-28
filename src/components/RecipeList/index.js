@@ -1,5 +1,4 @@
 import React from 'react';
-import Recipe from '../Recipe';
 import { Box, Card } from 'grommet';
 import recipes from '../../texts'
 
@@ -16,7 +15,8 @@ class RecipeList extends React.Component{
          colorIndex='light-2'
          >
          {recipes.map((recipe) =>
-           <Box direction='row'
+           <Box key={recipe.id}
+           direction='row'
             justify='start'
             pad='medium'
             margin='small'

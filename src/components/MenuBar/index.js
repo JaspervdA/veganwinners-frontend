@@ -18,14 +18,8 @@ class MenuBar extends React.Component{
               dropAlign={{'left':'right', 'top':'bottom'}}
               size={'medium'}
               >
-              <Anchor href='#' className='active'>
+              <Anchor href='/' className='active'>
                 Home
-              </Anchor>
-              <Anchor href='#'>
-                Add Recipe
-              </Anchor>
-              <Anchor href='#'>
-                Login
               </Anchor>
             </Menu>
           </Box>
