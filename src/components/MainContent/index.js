@@ -8,9 +8,8 @@ class MainContent extends React.Component {
      return (
        <Switch>
         <Route exact path='/' component={RecipeList}/>
-        <Route path='/recipe' component={Recipe}/>
+        <Route path='/recipe/:id' component={Recipe}/>
        </Switch>
-
      )
    }
 }

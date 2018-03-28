@@ -2,11 +2,14 @@ import React from 'react';
 import {Image, Heading, Accordion, AccordionPanel, Paragraph} from 'grommet';
 import recipes from '../../texts'
 
+
+
 class Recipe extends React.Component{
    render() {
+   console.log(this.props.match)
      return (
        <div>
-         <Image src={recipes[0].img}
+         <Image src={recipes[this.props.match.params.id].img}
           alt='Kan de foto niet laden'
           full={true}
           fit='contain' />
@@ -15,12 +18,12 @@ class Recipe extends React.Component{
           margin='small'
           strong={true}
           tag='h1'>
-          {recipes[0].title}
+          {recipes[this.props.match.params.id].title}
          </Heading>
          <Accordion openMulti={true}>
            <AccordionPanel heading='Ingrediënten'>
              <Paragraph>
-               {recipes[0].ingredients.map((ingredient) =>
+               {recipes[this.props.match.params.id].ingredients.map((ingredient) =>
                  <p key={ingredient.id}>
                  {ingredient.item}
                  </p>)
@@ -29,7 +32,7 @@ class Recipe extends React.Component{
            </AccordionPanel>
            <AccordionPanel heading='Bereidingswijze'>
              <Paragraph>
-              {recipes[0].instructions}
+              {recipes[this.props.match.params.id].instructions}
              </Paragraph>
            </AccordionPanel>
          </Accordion>

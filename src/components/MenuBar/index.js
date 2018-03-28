@@ -1,6 +1,7 @@
 import React from 'react'
-import {Header, Box, Menu, Anchor} from 'grommet';
-import {Menu as MenuIcon} from 'grommet-icons';
+import { Header, Box, Menu, Anchor } from 'grommet';
+import { Menu as MenuIcon } from 'grommet-icons';
+import { Link } from 'react-router-dom';
 
 class MenuBar extends React.Component{
    render() {
@@ -18,9 +19,11 @@ class MenuBar extends React.Component{
               dropAlign={{'left':'right', 'top':'bottom'}}
               size={'medium'}
               >
-              <Anchor href='/' className='active'>
+              <Link to='/'>
+                <Anchor className='active'>
                 Home
-              </Anchor>
+                </Anchor>
+              </Link>
             </Menu>
           </Box>
         </Header>

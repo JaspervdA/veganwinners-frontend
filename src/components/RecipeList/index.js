@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Card } from 'grommet';
 import recipes from '../../texts'
-
+import { Link } from 'react-router-dom'
 
 class RecipeList extends React.Component{
    render() {
@@ -22,9 +22,11 @@ class RecipeList extends React.Component{
             margin='small'
             colorIndex='light-1'
             >
-            <Card thumbnail={recipe.img}
-                      heading={recipe.title}
-              contentPad='medium' />
+            <Link to={{ pathname: `/recipe/${recipe.id}` }}>
+              <Card thumbnail={recipe.img}
+                        heading={recipe.title}
+                contentPad='medium' />
+            </Link>
           </Box>
          )}
       </Box>
