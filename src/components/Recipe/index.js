@@ -1,5 +1,6 @@
 import React from 'react';
-import {Image, Heading, Accordion, AccordionPanel, Paragraph} from 'grommet';
+import { Box, Image, Heading, Accordion, AccordionPanel, Paragraph, Table,
+          TableRow } from 'grommet';
 import recipes from '../../texts'
 
 class Recipe extends React.Component{
@@ -7,7 +8,6 @@ class Recipe extends React.Component{
    recipeId = this.props.match.params.id;
 
    render() {
-   console.log(this.recipeId)
      return (
        <div>
          <Image src={recipes[this.recipeId].img}
@@ -23,13 +23,20 @@ class Recipe extends React.Component{
          </Heading>
          <Accordion openMulti={true}>
            <AccordionPanel heading='Ingrediënten'>
-             <Paragraph>
-               {recipes[this.recipeId].ingredients.map((ingredient) =>
-                 <p key={ingredient.id}>
-                 {ingredient.item}
-                 </p>)
-               }
-             </Paragraph>
+             <Table scrollable={false}>
+               <tbody>
+                 {recipes[this.recipeId].ingredients.map((ingredient) =>
+                     <TableRow key={ingredient.id}>
+                       <td>
+                         {ingredient.item}
+                       </td>
+                       <td className='secondary'>
+                         {ingredient.quantity}
+                       </td>
+                     </TableRow>
+                 )}
+               </tbody>
+             </Table>
            </AccordionPanel>
            <AccordionPanel heading='Bereidingswijze'>
              <Paragraph>

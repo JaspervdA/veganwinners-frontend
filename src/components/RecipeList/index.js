@@ -22,7 +22,7 @@ class RecipeList extends React.Component{
             margin='small'
             colorIndex='light-1'
             >
-            <Link to={{ pathname: `/recipe/${recipe.id}` }}>
+            <Link to={{ pathname: `/recipe/${recipe.id}`}} style={{textDecoration: 'none'}}>
               <Card thumbnail={recipe.img}
                         heading={recipe.title}
                 contentPad='medium' />
