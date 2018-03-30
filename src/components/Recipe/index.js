@@ -1,22 +1,22 @@
 import React from 'react';
 import { Box, Image, Heading, Accordion, AccordionPanel, Paragraph, Table,
           TableRow } from 'grommet';
-import recipes from '../../texts'
+import recipes from '../../texts';
 
 class Recipe extends React.Component{
 
    recipeId = this.props.match.params.id;
 
    render() {
+     console.log( this.props.match.url)
      return (
-       <div>
+       <Box pad='large'>
          <Image src={recipes[this.recipeId].img}
-          alt='Kan de foto niet laden'
           full={true}
           fit='contain' />
          <Heading
           align='start'
-          margin='small'
+          margin='medium'
           strong={true}
           tag='h1'>
           {recipes[this.recipeId].title}
@@ -44,7 +44,7 @@ class Recipe extends React.Component{
              </Paragraph>
            </AccordionPanel>
          </Accordion>
-       </div>
+       </Box>
      )
    }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import RecipeList from '../RecipeList';
 import Recipe from '../Recipe';
+import AddRecipe from '../AddRecipe';
 import { Switch, Route } from 'react-router-dom';
 
 class MainContent extends React.Component {
@@ -9,6 +10,7 @@ class MainContent extends React.Component {
        <Switch>
         <Route exact path='/' component={RecipeList}/>
         <Route path='/recipe/:id' component={Recipe}/>
+        <Route path='/add' component={AddRecipe}/>
        </Switch>
      )
    }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Card } from 'grommet';
-import recipes from '../../texts'
-import { Link } from 'react-router-dom'
+import recipes from '../../texts';
+import { Link } from 'react-router-dom';
 
 class RecipeList extends React.Component{
    render() {

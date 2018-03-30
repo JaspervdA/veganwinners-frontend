@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
 import { Header, Box, Menu, Anchor } from 'grommet';
 import { Menu as MenuIcon } from 'grommet-icons';
 import { Link } from 'react-router-dom';
 
 class MenuBar extends React.Component{
    render() {
+     console.log(this.props.match)
      return (
         <Header fixed={true}
           float={false}
@@ -22,6 +23,11 @@ class MenuBar extends React.Component{
               <Link to='/'>
                 <Anchor className='active'>
                 Home
+                </Anchor>
+              </Link>
+              <Link to='/add'>
+                <Anchor>
+                Add Recipe
                 </Anchor>
               </Link>
             </Menu>
