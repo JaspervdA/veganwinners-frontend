@@ -25,11 +25,6 @@ class MenuBar extends React.Component{
                 Home
                 </Anchor>
               </Link>
-              <Link to='/add'>
-                <Anchor>
-                Add Recipe
-                </Anchor>
-              </Link>
             </Menu>
           </Box>
         </Header>

@@ -10,7 +10,6 @@ class MainContent extends React.Component {
        <Switch>
         <Route exact path='/' component={RecipeList}/>
         <Route path='/recipe/:id' component={Recipe}/>
-        <Route path='/add' component={AddRecipe}/>
        </Switch>
      )
    }
