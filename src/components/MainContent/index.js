@@ -1,7 +1,6 @@
 import React from 'react';
 import RecipeList from '../RecipeList';
 import Recipe from '../Recipe';
-import AddRecipe from '../AddRecipe';
 import { Switch, Route } from 'react-router-dom';
 
 class MainContent extends React.Component {

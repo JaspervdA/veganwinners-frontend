@@ -8,7 +8,6 @@ class Recipe extends React.Component{
    recipeId = this.props.match.params.id;
 
    render() {
-     console.log( this.props.match.url)
      return (
        <Box pad='large'>
          <Image src={recipes[this.recipeId].img}

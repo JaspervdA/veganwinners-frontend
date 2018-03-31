@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 class MenuBar extends React.Component{
    render() {
-     console.log(this.props.match)
      return (
         <Header fixed={true}
           float={false}

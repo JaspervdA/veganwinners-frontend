@@ -21,8 +21,6 @@ var recipes = [
                 ],
                 instructions: "Kook de pasta, ..... etc.... ",
                },
-             ]
-            ;
-
+             ];
 
 export default recipes
