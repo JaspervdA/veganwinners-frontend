@@ -4,51 +4,75 @@ import { Box, Image, Heading, Accordion, AccordionPanel, Paragraph, Table,
 
 class Recipe extends React.Component{
 
-  recipeId = this.props.match.params.id;
+  constructor() {
+    super();
+    this.state = {
+      isLoading: true,
+      recipe: [],
+    }
+  };
 
-  recipes = this.props.data.recipes;
+  getRecipe( recipeNumber ){
+    console.log(`http://localhost:8000/recipes/one/${recipeNumber}`)
+    fetch(`http://localhost:8000/recipes/one/${recipeNumber}`)
+    .then(response => response.json())
+      .then( data => this.setState({
+        recipe:data.data,
+        isLoading:false
+      })
+  )};
+
+  componentDidMount() {
+    var recipeId = this.props.match.params.id
+    this.getRecipe(recipeId);
+    console.log(this.state.recipe);
+  }
+
 
   render() {
-   console.log(this.recipeId)
-   console.log(this.props)
-   return (
-     <Box pad='large'>
-       <Image src={this.recipes[this.recipeId].img}
-        full={true}
-        fit='contain' />
-       <Heading
-        align='start'
-        margin='medium'
-        strong={true}
-        tag='h1'>
-        {this.recipes[this.recipeId].title}
-       </Heading>
-       <Accordion openMulti={true}>
-         <AccordionPanel heading='Ingrediënten'>
-           <Table scrollable={false}>
-             <tbody>
-               {this.recipes[this.recipeId].ingredients.map((ingredient) =>
-                   <TableRow key={ingredient.id}>
-                     <td>
-                       {ingredient.item}
-                     </td>
-                     <td className='secondary'>
-                       {ingredient.quantity}
-                     </td>
-                   </TableRow>
-               )}
-             </tbody>
-           </Table>
-         </AccordionPanel>
-         <AccordionPanel heading='Bereidingswijze'>
-           <Paragraph>
-           {this.recipes[this.recipeId].instructions}
-           </Paragraph>
-         </AccordionPanel>
-       </Accordion>
-     </Box>
-   )
-}
+    console.log(this.state.recipe)
+    console.log(this.state.isLoading)
+    return (
+      <Box pad='large'>
+        { this.state.isLoading && <p>Loading the recipes... Hier moeten we nog een fancy spinner klussen.</p>}
+        {!this.state.isLoading &&
+         (<div>
+           <Image src={this.state.recipe.img}
+            full={true}
+            fit='contain' />
+           <Heading
+            align='start'
+            margin='medium'
+            strong={true}
+            tag='h1' />
+            {this.state.recipe.title} />
+           <Accordion openMulti={true}>
+             <AccordionPanel heading='Ingrediënten'>
+               <Table scrollable={false}>
+                 <tbody>
+                   {this.state.recipe.ingredients.map((ingredient) =>
+                       <TableRow key={ingredient.id}>
+                         <td>
+                           {ingredient.item}
+                         </td>
+                         <td className='secondary'>
+                           {ingredient.quantity}
+                         </td>
+                       </TableRow>
+                   )}
+                 </tbody>
+               </Table>
+             </AccordionPanel>
+             <AccordionPanel heading='Bereidingswijze'>
+               <Paragraph>
+               {this.state.recipe.instructions}
+               </Paragraph>
+             </AccordionPanel>
+           </Accordion>
+           </div>
+         )}
+      </Box>
+   )}
 }
 
 export default Recipe

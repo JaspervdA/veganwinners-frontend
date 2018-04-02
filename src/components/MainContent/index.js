@@ -7,8 +7,9 @@ class MainContent extends React.Component {
   constructor() {
     super();
     this.state = {
-      recipes: [],
+      isLoading: true,
       numRecipes: 5,
+      recipes: [],
     }
   };
 
@@ -16,11 +17,12 @@ class MainContent extends React.Component {
     fetch(`http://localhost:8000/recipes/${numRecipes}`)
     .then(response => response.json())
       .then( data => this.setState({
-        recipes:data.data
+        recipes:data.data,
+        isLoading: false
       })
    )};
 
-  componentWillMount() {
+  componentDidMount() {
     this.getRecipes(this.state.numRecipes);
   }
 
@@ -28,11 +30,9 @@ class MainContent extends React.Component {
    return (
      <Switch>
       <Route exact path='/' render={(props) => (
-        <RecipeList {...props} data={{recipes:this.state.recipes}}/>
+        <RecipeList {...props} data={{recipes:this.state.recipes, isLoading:this.state.isLoading}}/>
       )}/>
-      <Route path='/recipe/:id' render={(props) => (
-        <Recipe {...props} data={{recipes:this.state.recipes}}/>
-      )}/>
+      <Route path='/recipe/:id' component={Recipe}/>
     </Switch>
    )
  }
