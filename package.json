@@ -1,7 +1,6 @@
 {
   "name": "grommet-react-app",
   "version": "0.1.0",
-  "proxy":"http://localhost:8000",
   "private": true,
   "devDependencies": {
     "autoprefixer": "6.5.1",
