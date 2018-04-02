@@ -36,7 +36,7 @@ class Recipe extends React.Component{
       <Box pad='large'>
         { this.state.isLoading && <p>Loading the recipes... Hier moeten we nog een fancy spinner klussen.</p>}
         {!this.state.isLoading &&
-         (<div>
+         <Accordion openMulti={true}>
            <Image src={this.state.recipe.img}
             full={true}
             fit='contain' />
@@ -44,33 +44,32 @@ class Recipe extends React.Component{
             align='start'
             margin='medium'
             strong={true}
-            tag='h1' />
-            {this.state.recipe.title} />
-           <Accordion openMulti={true}>
-             <AccordionPanel heading='Ingrediënten'>
-               <Table scrollable={false}>
-                 <tbody>
-                   {this.state.recipe.ingredients.map((ingredient) =>
-                       <TableRow key={ingredient.id}>
-                         <td>
-                           {ingredient.item}
-                         </td>
-                         <td className='secondary'>
-                           {ingredient.quantity}
-                         </td>
-                       </TableRow>
-                   )}
-                 </tbody>
-               </Table>
-             </AccordionPanel>
-             <AccordionPanel heading='Bereidingswijze'>
-               <Paragraph>
-               {this.state.recipe.instructions}
-               </Paragraph>
-             </AccordionPanel>
-           </Accordion>
-           </div>
-         )}
+            tag='h1'>
+            {this.state.recipe.title}
+           </Heading>
+           <AccordionPanel heading='Ingrediënten'>
+             <Table scrollable={false}>
+               <tbody>
+                 {this.state.recipe.ingredients.map((ingredient) =>
+                     <TableRow key={ingredient.id}>
+                       <td>
+                         {ingredient.item}
+                       </td>
+                       <td className='secondary'>
+                         {ingredient.quantity}
+                       </td>
+                     </TableRow>
+                 )}
+               </tbody>
+             </Table>
+           </AccordionPanel>
+           <AccordionPanel heading='Bereidingswijze'>
+             <Paragraph>
+             {this.state.recipe.instructions}
+             </Paragraph>
+           </AccordionPanel>
+         </Accordion>
+        }
       </Box>
    )}
 }
