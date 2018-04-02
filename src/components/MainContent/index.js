@@ -12,12 +12,26 @@ class MainContent extends React.Component {
     }
   };
 
+  getRecipes( numRecipes ){
+    fetch(`http://localhost:8000/recipes/${numRecipes}`)
+    .then(response => response.json())
+      .then( data => this.setState({
+        recipes:data.data
+      })
+   )};
+
+  componentWillMount() {
+    this.getRecipes(this.state.numRecipes);
+  }
+
   render() {
    return (
      <Switch>
-      <Route exact path='/' component={RecipeList}/>
+      <Route exact path='/' render={(props) => (
+        <RecipeList {...props} data={{recipes:this.state.recipes}}/>
+      )}/>
       <Route path='/recipe/:id' render={(props) => (
-        <Recipe />
+        <Recipe {...props} data={{recipes:this.state.recipes}}/>
       )}/>
     </Switch>
    )

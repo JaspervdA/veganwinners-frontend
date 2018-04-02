@@ -1,22 +1,19 @@
 import React from 'react';
 import { Box, Image, Heading, Accordion, AccordionPanel, Paragraph, Table,
           TableRow } from 'grommet';
-import recipes from '../../texts';
 
 class Recipe extends React.Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  };
 
   recipeId = this.props.match.params.id;
 
+  recipes = this.props.data.recipes;
+
   render() {
    console.log(this.recipeId)
+   console.log(this.props)
    return (
      <Box pad='large'>
-       <Image src={recipes[this.recipeId].img}
+       <Image src={this.recipes[this.recipeId].img}
         full={true}
         fit='contain' />
        <Heading
@@ -24,13 +21,13 @@ class Recipe extends React.Component{
         margin='medium'
         strong={true}
         tag='h1'>
-        {recipes[this.recipeId].title}
+        {this.recipes[this.recipeId].title}
        </Heading>
        <Accordion openMulti={true}>
          <AccordionPanel heading='Ingrediënten'>
            <Table scrollable={false}>
              <tbody>
-               {recipes[this.recipeId].ingredients.map((ingredient) =>
+               {this.recipes[this.recipeId].ingredients.map((ingredient) =>
                    <TableRow key={ingredient.id}>
                      <td>
                        {ingredient.item}
@@ -45,7 +42,7 @@ class Recipe extends React.Component{
          </AccordionPanel>
          <AccordionPanel heading='Bereidingswijze'>
            <Paragraph>
-           {recipes[this.recipeId].instructions}
+           {this.recipes[this.recipeId].instructions}
            </Paragraph>
          </AccordionPanel>
        </Accordion>
