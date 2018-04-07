@@ -64,8 +64,8 @@ class Recipe extends React.Component{
              </Table>
            </AccordionPanel>
            <AccordionPanel heading='Bereidingswijze'>
-             <Paragraph style={{whiteSpace: "pre"}}>
-             {this.state.recipe.instructions}
+             <Paragraph style={{whiteSpace:"pre-line"}}>
+              {this.state.recipe.instructions}
              </Paragraph>
            </AccordionPanel>
          </Accordion>
