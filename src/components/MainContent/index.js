@@ -9,7 +9,7 @@ class MainContent extends React.Component {
     super();
     this.state = {
       isLoading: true,
-      numRecipes: 5,
+      numRecipes: 10,
       recipes: [],
     }
   };
