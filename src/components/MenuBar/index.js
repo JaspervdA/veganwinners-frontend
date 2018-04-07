@@ -21,7 +21,7 @@ class MenuBar extends React.Component{
               >
               <Link to='/'>
                 <Anchor className='active'>
-                Home
+                Terug naar alle recepten!  
                 </Anchor>
               </Link>
             </Menu>
