@@ -13,8 +13,8 @@ class Recipe extends React.Component{
   };
 
   getRecipe( recipeNumber ){
-    console.log(`http://localhost:8000/recipes/one/${recipeNumber}`)
-    fetch(`http://localhost:8000/recipes/one/${recipeNumber}`)
+    console.log(`http://veganwinners.com/api/recipes/one/${recipeNumber}`)
+    fetch(`http://veganwinners.com/api/recipes/one/${recipeNumber}`)
     .then(response => response.json())
       .then( data => this.setState({
         recipe:data.data,
