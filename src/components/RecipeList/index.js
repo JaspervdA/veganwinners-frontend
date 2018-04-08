@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Card } from 'grommet';
+import Spinning from 'grommet/components/icons/Spinning';
 import { Link } from 'react-router-dom';
 
 class RecipeList extends React.Component{
@@ -13,7 +14,7 @@ class RecipeList extends React.Component{
        margin='medium'
        colorIndex='light-2'
        >
-       { this.props.data.isLoading && <p>Loading the recipes... Hier moeten we nog een fancy spinner klussen.</p>}
+       {this.props.data.isLoading && <Spinning />}
        {!this.props.data.isLoading && this.props.data.recipes.map((recipe) =>
          <Box key={recipe.id}
          direction='row'

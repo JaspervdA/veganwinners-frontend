@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box, Image, Heading, Accordion, AccordionPanel, Paragraph, Table,
           TableRow } from 'grommet';
+import Spinning from 'grommet/components/icons/Spinning';
+
 
 class Recipe extends React.Component{
 
@@ -13,7 +15,6 @@ class Recipe extends React.Component{
   };
 
   getRecipe( recipeNumber ){
-    console.log(`http://veganwinners.com/api/recipes/one/${recipeNumber}`)
     fetch(`http://veganwinners.com/api/recipes/one/${recipeNumber}`)
     .then(response => response.json())
       .then( data => this.setState({
@@ -25,16 +26,13 @@ class Recipe extends React.Component{
   componentDidMount() {
     var recipeId = this.props.match.params.id
     this.getRecipe(recipeId);
-    console.log(this.state.recipe);
   }
 
 
   render() {
-    console.log(this.state.recipe)
-    console.log(this.state.isLoading)
     return (
       <Box pad='large'>
-        { this.state.isLoading && <p>Loading the recipes... Hier moeten we nog een fancy spinner klussen.</p>}
+        {this.state.isLoading && <Spinning />}
         {!this.state.isLoading &&
          <Accordion openMulti={true}>
            <Image src={this.state.recipe.img}
