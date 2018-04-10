@@ -29,9 +29,8 @@ class Recipe extends React.Component{
 
 
   render() {
-    console.log(this)
     return (
-      <Box pad='large'>
+      <Box>
         {this.state.isLoading && <Spinning />}
         {!this.state.isLoading &&
          <Accordion openMulti={true}>

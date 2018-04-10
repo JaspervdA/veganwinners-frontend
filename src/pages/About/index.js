@@ -1,10 +1,10 @@
 import React from 'react';
-import { Headline, Section } from 'grommet';
+import { Box, Headline, Section } from 'grommet';
 
 class About extends React.Component{
    render() {
      return (
-       <div>
+       <Box>
          <Section style={{padding:"20px"}}>
            <Headline>
              Welkom op Veganwinners
@@ -20,7 +20,7 @@ class About extends React.Component{
            <p> Voor vragen en op- of aanmerkingen kun je ons <a href="mailto:ellissa@veganwinners.com">mailen</a>.<br/><br/>
            Verder is onze website volledig open source. Je kunt onze <a href="https://github.com/JaspervdA/veganwinners-frontend">frontend</a> en <a href="https://github.com/missEnergy/veganwinners-backend/">backend</a> vinden op Github. Wij staan open voor feedback en feature request!</p>
          </Section>
-       </div>
+       </Box>
      )
    }
 }

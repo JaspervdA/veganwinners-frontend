@@ -1,12 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Header, Box, Menu, Anchor } from 'grommet';
 import { Menu as MenuIcon } from 'grommet-icons';
 
 class MenuBar extends React.Component{
-   render() {
-     console.log(this)
-     return (
+  render() {
+    return (
       <Header fixed={true}
         float={false}
         splash={false}>
@@ -20,21 +18,17 @@ class MenuBar extends React.Component{
             dropAlign={{'left':'right', 'top':'bottom'}}
             size={'medium'}
             >
-            <Link to='/'>
-              <Anchor className='active'>
-                Terug naar alle recepten!
-              </Anchor>
-            </Link>
-            <Link to='/about'>
-            <Anchor>
-              Over de site
+            <Anchor path={'/'}>
+              Terug naar alle recepten!
             </Anchor>
-            </Link>
+            <Anchor path={'/about'}>
+              Over Veganwinners
+            </Anchor>
           </Menu>
         </Box>
       </Header>
-     )
-   }
+    )
+  }
 }
 
 export default MenuBar

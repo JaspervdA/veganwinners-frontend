@@ -5,7 +5,7 @@ import { Box } from 'grommet';
 
 class Home extends React.Component {
   render() {
-    return(
+    return (
       <Box>
         <WelcomeMessage />
         <RecipeList />
