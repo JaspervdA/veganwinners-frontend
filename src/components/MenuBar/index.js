@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Header, Box, Menu, Anchor } from 'grommet';
 import { Menu as MenuIcon } from 'grommet-icons';
-import { Link } from 'react-router-dom';
 
 class MenuBar extends React.Component{
    render() {
+     console.log(this)
      return (
       <Header fixed={true}
         float={false}
@@ -23,6 +24,11 @@ class MenuBar extends React.Component{
               <Anchor className='active'>
                 Terug naar alle recepten!
               </Anchor>
+            </Link>
+            <Link to='/about'>
+            <Anchor>
+              Over de site
+            </Anchor>
             </Link>
           </Menu>
         </Box>

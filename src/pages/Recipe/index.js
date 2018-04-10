@@ -5,7 +5,6 @@ import Spinning from 'grommet/components/icons/Spinning';
 
 
 class Recipe extends React.Component{
-
   constructor() {
     super();
     this.state = {
@@ -30,6 +29,7 @@ class Recipe extends React.Component{
 
 
   render() {
+    console.log(this)
     return (
       <Box pad='large'>
         {this.state.isLoading && <Spinning />}

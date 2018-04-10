@@ -1,11 +1,19 @@
 import React from 'react';
-import MenuBar from './components/MenuBar';
-import MainContent from './components/MainContent';
+import { Switch, Route } from 'react-router-dom';
 import { App } from 'grommet';
+import MenuBar from './components/MenuBar';
+import Recipe from './pages/Recipe';
+import About from './pages/About';
+import Home from './pages/Home';
+
 
 export default () => (
   <App>
     <MenuBar />
-    <MainContent />
+    <Switch>
+      <Route exact path='/' component={Home} />
+      <Route path='/recipe/:id' component={Recipe} />
+      <Route path='/about' component={About} />
+    </Switch>
   </App>
 );
