@@ -15,8 +15,8 @@ class RecipeList extends React.Component {
   };
 
   getRecipes( numRecipes ){
-    /*LOCAL*/ fetch(`http://localhost:8000/recipes/${numRecipes}`)
-    /*SERVER fetch(`http://veganwinners.com/api/recipes/${numRecipes}`)*/
+    /*LOCAL fetch(`http://localhost:8000/recipes/${numRecipes}`)*/
+    /*SERVER*/ fetch(`http://veganwinners.com/api/recipes/${numRecipes}`)
     .then(response => response.json())
       .then( data => this.setState({
         recipes: data.data,
@@ -34,9 +34,9 @@ class RecipeList extends React.Component {
        align='center'
        wrap={true}
        reverse={false}
-       pad='medium'
-       margin='medium'
-       colorIndex='light-2'
+       pad='none'
+       margin='none'
+       style={{backgroundImage:`url( '/img/wildtextures-wooden-chopping-board-texture.jpg')`}}
        >
        {this.state.isLoading && <Spinning />}
        {!this.state.isLoading && this.state.recipes.map((recipe) =>
