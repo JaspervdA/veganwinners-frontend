@@ -15,7 +15,8 @@ class RecipeList extends React.Component {
   };
 
   getRecipes( numRecipes ){
-    fetch(`http://veganwinners.com/api/recipes/${numRecipes}`)
+    /*LOCAL*/ fetch(`http://localhost:8000/recipes/${numRecipes}`)
+    /*SERVER fetch(`http://veganwinners.com/api/recipes/${numRecipes}`)*/
     .then(response => response.json())
       .then( data => this.setState({
         recipes: data.data,
