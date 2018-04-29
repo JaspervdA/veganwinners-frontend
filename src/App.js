@@ -1,10 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom'
+import { App as GrommetApp } from 'grommet';
 import Recipe from './pages/Recipe';
 import About from './pages/About';
 import Home from './pages/Home';
 import MenuBar from './components/MenuBar';
-import {App as GrommetApp} from 'grommet';
+import Footer from './components/Footer'
 
 export default () => (
   <GrommetApp>
@@ -14,5 +15,6 @@ export default () => (
       <Route path='/recipe/:id' component={Recipe} />
       <Route path='/about' component={About} />
     </Switch>
+    <Footer />
   </GrommetApp>
 )
