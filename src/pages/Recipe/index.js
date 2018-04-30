@@ -30,7 +30,7 @@ class Recipe extends React.Component{
 
   render() {
     return (
-      <Box>
+      <Box pad="medium">
         {this.state.isLoading && <Spinning />}
         {!this.state.isLoading &&
          <Accordion openMulti={true}>

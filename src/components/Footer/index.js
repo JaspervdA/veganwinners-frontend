@@ -4,7 +4,7 @@ import { Title, Box, Image, Anchor } from 'grommet';
 import { Github } from 'grommet-icons';
 
 export default () => (
-  <GrommetFooter justify='between' align='center' size='large'>
+  <GrommetFooter justify='between' align='center' size='large' pad="medium">
     <Title>
       <Image src='/img/vegan_icon.png' size='thumb'/>
       Veganwinners

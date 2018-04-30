@@ -3,7 +3,6 @@ import { Box, Card } from 'grommet';
 import { Link } from 'react-router-dom';
 import Spinning from 'grommet/components/icons/Spinning';
 
-
 class RecipeList extends React.Component {
   constructor() {
     super();
@@ -34,7 +33,7 @@ class RecipeList extends React.Component {
        align='center'
        wrap={true}
        reverse={false}
-       pad='none'
+       pad='large'
        margin='none'
        style={{backgroundImage:`url( '/img/wildtextures-wooden-chopping-board-texture.jpg')`}}
        >
