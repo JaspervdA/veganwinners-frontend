@@ -12,8 +12,8 @@ export default () => (
     <Box direction='row'
     align='center'
     pad={{"between": "medium"}}>
-      <Anchor icon={<Github />} label='Frontend' primary={true} href='https://github.com/JaspervdA/veganwinners-frontend'/>
-      <Anchor icon={<Github />} label='Backend' primary={true} href='https://github.com/missEnergy/veganwinners-backend'/>
+      <Anchor icon={<Github />} label=' Frontend' primary={true} href='https://github.com/JaspervdA/veganwinners-frontend'/>
+      <Anchor icon={<Github />} label=' Backend' primary={true} href='https://github.com/missEnergy/veganwinners-backend'/>
     </Box>
   </GrommetFooter>
 )

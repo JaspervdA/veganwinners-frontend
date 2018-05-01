@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Card } from 'grommet';
+import { Box, Card, Columns } from 'grommet';
 import { Link } from 'react-router-dom';
 import Spinning from 'grommet/components/icons/Spinning';
 
@@ -29,32 +29,27 @@ class RecipeList extends React.Component {
 
   render() {
     return (
-      <Box justify='start'
-       align='center'
-       wrap={true}
-       reverse={false}
-       pad='large'
-       margin='none'
-       style={{backgroundImage:`url( '/img/wildtextures-wooden-chopping-board-texture.jpg')`}}
-       >
-       {this.state.isLoading && <Spinning />}
-       {!this.state.isLoading && this.state.recipes.map((recipe) =>
-         <Box key={recipe.id}
-         direction='row'
-          justify='start'
-          pad='medium'
-          margin='small'
+      <Columns size='medium'
+        justify='center'
+        maxCount={2}
+        style={{backgroundImage:`url( '/img/wildtextures-wooden-chopping-board-texture.jpg')`}}
+        >
+        {this.state.isLoading && <Spinning />}
+        {!this.state.isLoading && this.state.recipes.map((recipe) =>
+        <Box key={recipe.id}
+          align='center'
+          justify='center'
+          pad= {{horizontal:'medium', vertical:'medium'}}
+          margin='large'
           colorIndex='light-1'
-          >
-          <Link to={{ pathname:`/recipe/${recipe.id}`}} style={{textDecoration: 'none'}}>
-            <Card thumbnail={recipe.img}
-                      heading={recipe.title}
-              contentPad='medium' />
-          </Link>
-        </Box>
-       )}
-      </Box>
-    )}
+           >
+           <Link to={{ pathname:`/recipe/${recipe.id}`}} style={{textDecoration: 'none'}}>
+             <Card thumbnail={recipe.img} heading={recipe.title} contentPad='medium' textSize='small' />
+           </Link>
+         </Box>
+        )}
+      </Columns>
+   )}
 }
 
 export default RecipeList
