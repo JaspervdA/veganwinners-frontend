@@ -8,7 +8,7 @@ class RecipeList extends React.Component {
     super();
     this.state = {
       isLoading: true,
-      numRecipes: 10,
+      numRecipes: 12,
       recipes: [],
     }
   };
