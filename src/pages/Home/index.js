@@ -8,13 +8,13 @@ class Home extends React.Component {
     return (
       <Box>
         <WelcomeMessage />
-        <Headline align='center' strong={true} colorIndex='accent-3'>
+        <Headline align="center" strong={true} colorIndex="accent-3">
           Welkom op Veganwinners
         </Headline>
         <RecipeList />
       </Box>
-    )
+    );
   }
 }
 
-export default Home
+export default Home;
