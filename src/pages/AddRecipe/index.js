@@ -1,4 +1,6 @@
 import React from 'react';
+import DuoRow from '../../components/DuoRow';
+import IngredientInput from '../../components/IngredientInput';
 import {
   Box,
   Form,
@@ -8,8 +10,19 @@ import {
   Button,
   Select,
   TextInput,
+  FormField,
+  Title,
   NumberInput
 } from 'grommet';
+
+const recipeTypes = [
+  'Voorgerecht',
+  'Bijgerecht',
+  'Hoofdgerecht',
+  'Dessert',
+  'Soep',
+  'Saus'
+];
 
 class AddRecipe extends React.Component {
   constructor(props) {
@@ -27,28 +40,46 @@ class AddRecipe extends React.Component {
   }
 
   render() {
-    console.log(this.state.cookingTime);
+    console.log()
     return (
       <Box pad="medium">
-        <Form>
+        <Form plain="true">
           <Header>
             <Heading>Recept Toevoegen</Heading>
           </Header>
-          <Select
-            placeHolder="Type gerecht"
-            value={this.state.recipeType}
-            onChange={e => this.setState({ recipeType: e.option })}
-            options={[
-              'Voorgerecht',
-              'Bijgerecht',
-              'Hoofdgerecht',
-              'Dessert',
-              'Soep',
-              'Saus'
-            ]}
+          <DuoRow
+            left={<Title>{'Soort gerecht'}</Title>}
+            right={
+              <Select
+                value={this.state.recipeType}
+                onChange={e => this.setState({ recipeType: e.option })}
+                options={recipeTypes}
+              />
+            }
           />
-          <TextInput id="item1" defaultValue="" name="bereidingstijd" />
-          <NumberInput value={this.state.numPeople} />
+          <DuoRow
+            left={<Title>{'Bereidingstijd'}</Title>}
+            right={
+              <TextInput id="item1" defaultValue="" name="bereidingstijd" />
+            }
+          />
+          <DuoRow
+            left={<Title>{'Aantal personen'}</Title>}
+            right={<NumberInput value={this.state.numPeople} />}
+          />
+          <DuoRow
+            left={<Title>{'Ingrediënten'}</Title>}
+            right={<IngredientInput />}
+          />
+          <DuoRow
+            left={<Title>{'Bereidingswijze'}</Title>}
+            right={
+              <FormField>
+                <textarea rows="4" cols="50">
+                </textarea>
+              </FormField>
+            }
+          />
           <Footer pad={{ vertical: 'medium' }}>
             <Button
               label="Submit"
