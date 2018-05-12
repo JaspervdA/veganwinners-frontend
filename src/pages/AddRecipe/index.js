@@ -9,6 +9,7 @@ import {
   Footer,
   Button,
   Select,
+  Toast,
   TextInput,
   FormField,
   Title,
@@ -39,28 +40,36 @@ class AddRecipe extends React.Component {
     });
   }
 
+  onSubmit(data) {
+    alert('Je recept is succesvol opgestuurd.');
+    console.log(data);
+  }
+
   render() {
-    console.log()
     return (
       <Box pad="medium">
-        <Form plain="true">
+        <Form plain={true} onSubmit={this.onSubmit}>
           <Header>
             <Heading>Recept Toevoegen</Heading>
           </Header>
           <DuoRow
             left={<Title>{'Soort gerecht'}</Title>}
             right={
-              <Select
-                value={this.state.recipeType}
-                onChange={e => this.setState({ recipeType: e.option })}
-                options={recipeTypes}
-              />
+              <FormField>
+                <Select
+                  value={this.state.recipeType}
+                  onChange={e => this.setState({ recipeType: e.option })}
+                  options={recipeTypes}
+                />
+              </FormField>
             }
           />
           <DuoRow
             left={<Title>{'Bereidingstijd'}</Title>}
             right={
-              <TextInput id="item1" defaultValue="" name="bereidingstijd" />
+              <FormField>
+                <TextInput id="item1" defaultValue="" name="bereidingstijd" />
+              </FormField>
             }
           />
           <DuoRow
@@ -75,8 +84,7 @@ class AddRecipe extends React.Component {
             left={<Title>{'Bereidingswijze'}</Title>}
             right={
               <FormField>
-                <textarea rows="4" cols="50">
-                </textarea>
+                <textarea rows="8" cols="50" />
               </FormField>
             }
           />
@@ -85,7 +93,6 @@ class AddRecipe extends React.Component {
               label="Submit"
               type="submit"
               primary={true}
-              onClick={() => this.sendRecipeToDb()}
             />
           </Footer>
         </Form>

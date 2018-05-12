@@ -1,11 +1,18 @@
 import React from 'react';
-import { Box, Button, TextInput } from 'grommet';
+import { Box, Button, TextInput, FormField } from 'grommet';
 
 const Ingredient = () => {
   return (
-    <Box direction="row">
-      <TextInput />
-      <TextInput />
+    <Box
+      direction="row"
+      pad={{ horizontal: 'none', vertical: 'small', between: 'small' }}
+    >
+      <FormField>
+        <TextInput placeHolder="Ingredient" />
+      </FormField>
+      <FormField>
+        <TextInput placeHolder="Hoeveelheid" />
+      </FormField>
     </Box>
   );
 };
@@ -36,13 +43,15 @@ class IngredientInput extends React.Component {
   }
 
   render() {
-    console.log(this.state.numIngredients);
     return (
       <Box direction="column">
         {this.state.numbers.map(number => (
           <Ingredient key={number.toString()} value={number} />
         ))}
-        <Box direction="row">
+        <Box
+          direction="row"
+          pad={{ horizontal: 'none', vertical: 'none', between: 'small' }}
+        >
           <Button
             label="Extra ingredient"
             primary={true}
