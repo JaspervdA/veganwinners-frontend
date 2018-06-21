@@ -1,6 +1,6 @@
-import React from 'react';
-import DuoRow from '../../components/DuoRow';
-import IngredientInput from '../../components/IngredientInput';
+import React from "react";
+import DuoRow from "../../components/DuoRow";
+import IngredientInput from "../../components/IngredientInput";
 import {
   Box,
   Form,
@@ -14,23 +14,29 @@ import {
   FormField,
   Title,
   NumberInput
-} from 'grommet';
+} from "grommet";
+import Dropzone from "react-dropzone";
+import request from "superagent";
 
 const recipeTypes = [
-  'Voorgerecht',
-  'Bijgerecht',
-  'Hoofdgerecht',
-  'Dessert',
-  'Soep',
-  'Saus'
+  "Voorgerecht",
+  "Bijgerecht",
+  "Hoofdgerecht",
+  "Dessert",
+  "Soep",
+  "Saus"
 ];
+
+const CLOUDINARY_UPLOAD_PRESET =;
+const CLOUDINARY_UPLOAD_URL =; 
 
 class AddRecipe extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       test: false,
-      recipeType: undefined
+      recipeType: undefined,
+      uploadedFileCloudinaryUrl: ""
     };
   }
 
@@ -41,8 +47,35 @@ class AddRecipe extends React.Component {
   }
 
   onSubmit(data) {
-    alert('Je recept is succesvol opgestuurd.');
+    alert("Je recept is succesvol opgestuurd.");
     console.log(data);
+  }
+
+  onImageDrop(files) {
+    this.setState({
+      uploadedFile: files[0]
+    });
+
+    this.handleImageUpload(files[0]);
+  }
+
+  handleImageUpload(file) {
+    let upload = request
+      .post(CLOUDINARY_UPLOAD_URL)
+      .field("upload_preset", CLOUDINARY_UPLOAD_PRESET)
+      .field("file", file);
+
+    upload.end((err, response) => {
+      if (err) {
+        console.error(err);
+      }
+
+      if (response.body.secure_url !== "") {
+        this.setState({
+          uploadedFileCloudinaryUrl: response.body.secure_url
+        });
+      }
+    });
   }
 
   render() {
@@ -53,7 +86,7 @@ class AddRecipe extends React.Component {
             <Heading>Recept Toevoegen</Heading>
           </Header>
           <DuoRow
-            left={<Title>{'Soort gerecht'}</Title>}
+            left={<Title>{"Soort gerecht"}</Title>}
             right={
               <FormField>
                 <Select
@@ -65,7 +98,7 @@ class AddRecipe extends React.Component {
             }
           />
           <DuoRow
-            left={<Title>{'Bereidingstijd'}</Title>}
+            left={<Title>{"Bereidingstijd"}</Title>}
             right={
               <FormField>
                 <TextInput id="item1" defaultValue="" name="bereidingstijd" />
@@ -73,27 +106,38 @@ class AddRecipe extends React.Component {
             }
           />
           <DuoRow
-            left={<Title>{'Aantal personen'}</Title>}
+            left={<Title>{"Aantal personen"}</Title>}
             right={<NumberInput value={this.state.numPeople} />}
           />
           <DuoRow
-            left={<Title>{'Ingrediënten'}</Title>}
+            left={<Title>{"Ingrediënten"}</Title>}
             right={<IngredientInput />}
           />
           <DuoRow
-            left={<Title>{'Bereidingswijze'}</Title>}
+            left={<Title>{"Bereidingswijze"}</Title>}
             right={
               <FormField>
                 <textarea rows="8" cols="50" />
               </FormField>
             }
           />
-          <Footer pad={{ vertical: 'medium' }}>
-            <Button
-              label="Submit"
-              type="submit"
-              primary={true}
-            />
+          <Dropzone
+            multiple={false}
+            accept="image/*"
+            onDrop={this.onImageDrop.bind(this)}
+          >
+            <p>Drop an image or click to select a file to upload.</p>
+          </Dropzone>
+          <div>
+            {this.state.uploadedFileCloudinaryUrl === "" ? null : (
+              <div>
+                <p>{this.state.uploadedFile.name}</p>
+                <img src={this.state.uploadedFileCloudinaryUrl} />
+              </div>
+            )}
+          </div>
+          <Footer pad={{ vertical: "medium" }}>
+            <Button label="Submit" type="submit" primary={true} />
           </Footer>
         </Form>
       </Box>
