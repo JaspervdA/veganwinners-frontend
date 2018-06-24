@@ -6,8 +6,7 @@ import { Github } from 'grommet-icons';
 export default () => (
   <GrommetFooter justify='between' align='center' size='large' pad="medium">
     <Title>
-      <Image src='/img/vegan_icon.png' size='thumb'/>
-      Veganwinners
+      <Image src='/img/veganwinners.svg' size='small'/>
     </Title>
     <Box direction='row'
     align='center'

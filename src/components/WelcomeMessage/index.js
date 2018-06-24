@@ -3,6 +3,6 @@ import { Toast } from 'grommet';
 
 export default () => (
   <Toast status='ok'>
-    Leuk dat je Djelli&#39;s nieuwe recepten website bezoekt! We zijn hard bezig hem nog mooier te maken :)
+    Er zijn weer 2 nieuwe recepten toegevoegd! <a href="/recipe/13">Paddenstoelen Tagliatelle</a> en <a href="/recipe/14">Aziatisch Broodje Tempeh</a>. Smullen maar :)
   </Toast>
 )

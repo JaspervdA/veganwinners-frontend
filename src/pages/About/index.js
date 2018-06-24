@@ -16,7 +16,7 @@ class About extends React.Component {
           te reduceren. Op deze website vind je nu een kleine selectie van onze
           winners. Veel plezier met koken en eet smakelijk!
         </Paragraph>
-        <Image src="/img/vegan-vegetables-freshhh.jpg" size="large" />
+        <Image src="https://res.cloudinary.com/dsu60ie3p/image/upload/v1529655323/dan-gold-298710-unsplash-c_scale_w_820.jpg" size="large" />
         <Paragraph size="medium">
           {' '}
           Voor vragen en op- of aanmerkingen kun je ons{' '}

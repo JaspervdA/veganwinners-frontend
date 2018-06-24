@@ -8,10 +8,10 @@ class RecipeList extends React.Component {
     super();
     this.state = {
       isLoading: true,
-      numRecipes: 10,
-      recipes: []
-    };
-  }
+      numRecipes: 30,
+      recipes: [],
+    }
+  };
 
   getRecipes(numRecipes) {
     fetch(`http://veganwinners.com/api/recipes/${numRecipes}`)

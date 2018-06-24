@@ -9,11 +9,11 @@ import {
   Footer,
   Button,
   Select,
-  Toast,
   TextInput,
   FormField,
   Title,
-  NumberInput
+  NumberInput,
+  Image
 } from "grommet";
 import Dropzone from "react-dropzone";
 import request from "superagent";
@@ -24,31 +24,61 @@ const recipeTypes = [
   "Hoofdgerecht",
   "Dessert",
   "Soep",
-  "Saus"
+  "Saus",
+  "Lunch"
 ];
 
-const CLOUDINARY_UPLOAD_PRESET =;
-const CLOUDINARY_UPLOAD_URL =; 
+const CLOUDINARY_UPLOAD_PRESET = "idcxycac";
+const CLOUDINARY_UPLOAD_URL =
+  "https://api.cloudinary.com/v1_1/dsu60ie3p/upload";
+
+const INGREDIENTS = [
+  {
+    item: "Aubergine",
+    quantity: "1 stuk"
+  },
+  {
+    item: "Hard broodje",
+    quantity: "4 stuks"
+  }
+];
 
 class AddRecipe extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      test: false,
-      recipeType: undefined,
+      title: "Broodje gegrilde groente",
+      instructions: "1. Snijd en gril de groenten.\n2. Beleg het broodje!",
+      type: "Lunch",
+      time: "15 minuten",
+      people: 4,
+      ingredients: INGREDIENTS,
       uploadedFileCloudinaryUrl: ""
     };
   }
 
-  sendRecipeToDb() {
-    this.setState({
-      test: true
-    });
-  }
-
-  onSubmit(data) {
-    alert("Je recept is succesvol opgestuurd.");
-    console.log(data);
+  onSubmit = () => {
+    console.log(this.state.title)
+    fetch("http://veganwinners.com/api/recipes/add", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: this.state.title,
+        instructions: this.state.instructions,
+        img: this.state.uploadedFileCloudinaryUrl,
+        type: this.state.type,
+        time: this.state.time,
+        people: this.state.people,
+        ingredients: this.state.ingredients
+      })
+    })
+    .then(response => response.json())
+    .then(data =>
+      console.log(data)
+    );
   }
 
   onImageDrop(files) {
@@ -78,6 +108,12 @@ class AddRecipe extends React.Component {
     });
   }
 
+  updateIngredientList(latestList) {
+    this.setState({
+      ingredients: latestList
+    });
+  }
+
   render() {
     return (
       <Box pad="medium">
@@ -90,8 +126,8 @@ class AddRecipe extends React.Component {
             right={
               <FormField>
                 <Select
-                  value={this.state.recipeType}
-                  onChange={e => this.setState({ recipeType: e.option })}
+                  value={this.state.type}
+                  onChange={event => this.setState({ type: event.value })}
                   options={recipeTypes}
                 />
               </FormField>
@@ -100,18 +136,27 @@ class AddRecipe extends React.Component {
           <DuoRow
             left={<Title>{"Bereidingstijd"}</Title>}
             right={
-              <FormField>
-                <TextInput id="item1" defaultValue="" name="bereidingstijd" />
+              <FormField help="bv. 30 minuten">
+                <TextInput
+                  onSelect={suggestion => {
+                    this.setState({ time: suggestion });
+                    console.log(suggestion);
+                  }}
+                />
               </FormField>
             }
           />
           <DuoRow
             left={<Title>{"Aantal personen"}</Title>}
-            right={<NumberInput value={this.state.numPeople} />}
+            right={<NumberInput value={this.state.people} />}
           />
           <DuoRow
             left={<Title>{"Ingrediënten"}</Title>}
-            right={<IngredientInput />}
+            right={
+              <IngredientInput
+                updateIngredientList={this.updateIngredientList}
+              />
+            }
           />
           <DuoRow
             left={<Title>{"Bereidingswijze"}</Title>}
@@ -132,10 +177,14 @@ class AddRecipe extends React.Component {
             {this.state.uploadedFileCloudinaryUrl === "" ? null : (
               <div>
                 <p>{this.state.uploadedFile.name}</p>
-                <img src={this.state.uploadedFileCloudinaryUrl} />
+                <Image
+                  src={this.state.uploadedFileCloudinaryUrl}
+                  size="medium"
+                />
               </div>
             )}
           </div>
+          <Button label="test" primary={true} onClick={this.onSubmit} />
           <Footer pad={{ vertical: "medium" }}>
             <Button label="Submit" type="submit" primary={true} />
           </Footer>

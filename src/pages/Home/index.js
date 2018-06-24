@@ -1,7 +1,7 @@
 import React from 'react';
 import WelcomeMessage from '../../components/WelcomeMessage';
 import RecipeList from '../../components/RecipeList';
-import { Box, Headline } from 'grommet';
+import { Box, Headline, Image } from 'grommet';
 
 class Home extends React.Component {
   render() {
@@ -9,7 +9,7 @@ class Home extends React.Component {
       <Box>
         <WelcomeMessage />
         <Headline align="center" strong={true} colorIndex="accent-3">
-          Welkom op Veganwinners
+          <Image src='/img/veganwinners.svg' size='large'/>
         </Headline>
         <RecipeList />
       </Box>
