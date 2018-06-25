@@ -13,6 +13,7 @@ import {
   FormField,
   Title,
   NumberInput,
+  Paragraph,
   Image
 } from 'grommet';
 import Dropzone from 'react-dropzone';
@@ -43,23 +44,31 @@ class AddRecipe extends React.Component {
       time: undefined,
       people: 4,
       ingredients: [],
+      uploadedFileCloudinaryUrl: '',
       check: true,
       titleCheck: true,
       instructionsCheck: true,
       typeCheck: true,
       timeCheck: true,
       ingredientsCheck: true,
-      uploadedFileCloudinaryUrl: ''
+      cloudinaryCheck: true
     };
   }
 
   onSubmit = async () => {
-    this.checkFields();
+    await this.checkFields();
 
-    {
-      this.state.check
-        ? alert('Je hebt niet alles ingevuld.')
-        : this.submitData();
+    if (
+      this.state.titleCheck &&
+      this.state.typeCheck &&
+      this.state.timeCheck &&
+      this.state.ingredientsCheck &&
+      this.state.instructionsCheck &&
+      this.state.cloudinaryCheck
+    ) {
+      this.submitData();
+    } else {
+      alert('Je hebt niet alles ingevuld.');
     }
   };
 
@@ -123,24 +132,31 @@ class AddRecipe extends React.Component {
   }
 
   checkFields() {
-    if (this.state.title === (undefined || "" || '')) {
-      this.setState({ titleCheck: false, check: false });
+    if (this.state.title === undefined || '' || '') {
+      this.setState({ titleCheck: false });
     }
-    if (this.state.type === (undefined || "" || '')) {
-      this.setState({ typeCheck: false, check: false });
+    if (this.state.type === undefined || '' || '') {
+      this.setState({ typeCheck: false });
     }
-    if (this.state.time === (undefined || "" || '')) {
-      this.setState({ timeCheck: false, check: false });
+    if (this.state.time === undefined || '' || '') {
+      this.setState({ timeCheck: false });
     }
-    if (this.state.ingredients === []) {
-      this.setState({ ingredientsCheck: false, check: false });
+    if (this.state.ingredients.length === 0) {
+      this.setState({ ingredientsCheck: false });
+    } else {
+      this.setState({ ingredientsCheck: true });
     }
-    if (this.state.instructions === (undefined || "" || '')) {
-      this.setState({ instructionsCheck: false, check: false });
+    if (this.state.instructions === undefined || '' || '') {
+      this.setState({ instructionsCheck: false });
+    }
+    if (this.state.uploadedFileCloudinaryUrl === '') {
+      this.setState({ cloudinaryCheck: false });
     }
   }
 
   render() {
+    console.log(this.state.ingredients.length);
+    console.log(this.state);
     return (
       <Box pad="medium">
         <Form plain={true}>
@@ -228,30 +244,44 @@ class AddRecipe extends React.Component {
                   rows="8"
                   cols="50"
                   onChange={e =>
-                    this.setState({ instructions: e.target.value, instructionsCheck:true })
+                    this.setState({
+                      instructions: e.target.value,
+                      instructionsCheck: true
+                    })
                   }
                 />
               </FormField>
             }
           />
-          <Dropzone
-            multiple={false}
-            accept="image/*"
-            onDrop={this.onImageDrop.bind(this)}
-          >
-            <p>Drop an image or click to select a file to upload.</p>
-          </Dropzone>
-          <div>
-            {this.state.uploadedFileCloudinaryUrl === '' ? null : (
+          <DuoRow
+            left={<Title>{'Foto'}</Title>}
+            right={
               <div>
-                <p>{this.state.uploadedFile.name}</p>
-                <Image
-                  src={this.state.uploadedFileCloudinaryUrl}
-                  size="medium"
-                />
+                <Dropzone
+                  multiple={false}
+                  accept="image/*"
+                  onDrop={this.onImageDrop.bind(this)}
+                >
+                  <Box margin="medium" justify="center" align="center" size="full">
+                    <Paragraph>
+                      Drop je foto hier of klik om te uploaden!
+                    </Paragraph>
+                  </Box>
+                </Dropzone>
+                <div>
+                  {this.state.uploadedFileCloudinaryUrl === '' ? null : (
+                    <div>
+                      <p>{this.state.uploadedFile.name}</p>
+                      <Image
+                        src={this.state.uploadedFileCloudinaryUrl}
+                        size="medium"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
-          </div>
+            }
+          />
           <Footer pad={{ vertical: 'medium' }}>
             <Button label="Submit" primary={true} onClick={this.onSubmit} />
           </Footer>
