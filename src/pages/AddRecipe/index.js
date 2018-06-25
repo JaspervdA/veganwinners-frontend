@@ -52,14 +52,13 @@ class AddRecipe extends React.Component {
       instructions: undefined,
       type: undefined,
       time: undefined,
-      people: undefined,
+      people: 4,
       ingredients: [],
       uploadedFileCloudinaryUrl: ''
     };
   }
 
   onSubmit = () => {
-    console.log(this.state.title);
     fetch('http://veganwinners.com/api/recipes/add', {
       method: 'POST',
       headers: {
@@ -112,7 +111,6 @@ class AddRecipe extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <Box pad="medium">
         <Form plain={true} onSubmit={this.onSubmit}>
