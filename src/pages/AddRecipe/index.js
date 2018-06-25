@@ -38,6 +38,7 @@ class AddRecipe extends React.Component {
     super(props);
 
     this.state = {
+      owner: undefined,
       title: undefined,
       instructions: undefined,
       type: undefined,
@@ -46,6 +47,7 @@ class AddRecipe extends React.Component {
       ingredients: [],
       uploadedFileCloudinaryUrl: '',
       check: true,
+      ownerCheck: true,
       titleCheck: true,
       instructionsCheck: true,
       typeCheck: true,
@@ -64,7 +66,8 @@ class AddRecipe extends React.Component {
       this.state.timeCheck &&
       this.state.ingredientsCheck &&
       this.state.instructionsCheck &&
-      this.state.cloudinaryCheck
+      this.state.cloudinaryCheck &&
+      this.state.ownerCheck
     ) {
       this.submitData();
     } else {
@@ -132,25 +135,30 @@ class AddRecipe extends React.Component {
   }
 
   checkFields() {
-    if (this.state.title === undefined || '' || '') {
+    if (this.state.title === undefined || '') {
       this.setState({ titleCheck: false });
     }
-    if (this.state.type === undefined || '' || '') {
+    if (this.state.type === undefined || '') {
       this.setState({ typeCheck: false });
     }
-    if (this.state.time === undefined || '' || '') {
+    if (this.state.time === undefined || '') {
       this.setState({ timeCheck: false });
+    }
+    if (this.state.owner === undefined || '') {
+      this.setState({ ownerCheck: false });
     }
     if (this.state.ingredients.length === 0) {
       this.setState({ ingredientsCheck: false });
     } else {
       this.setState({ ingredientsCheck: true });
     }
-    if (this.state.instructions === undefined || '' || '') {
+    if (this.state.instructions === undefined || '') {
       this.setState({ instructionsCheck: false });
     }
     if (this.state.uploadedFileCloudinaryUrl === '') {
       this.setState({ cloudinaryCheck: false });
+    } else {
+      this.setState({ cloudinaryCheck: true });
     }
   }
 
@@ -164,14 +172,32 @@ class AddRecipe extends React.Component {
             <Heading>Recept Toevoegen</Heading>
           </Header>
           <DuoRow
-            left={<Title>{'Naam'}</Title>}
+            left={<Title>{'De chef'}</Title>}
+            right={
+              <FormField
+                error={
+                  this.state.ownerCheck ? undefined : 'Schrijf je naam hier'
+                }
+              >
+                <TextInput
+                  value={this.state.owner}
+                  placeHolder={'Hoe heet je?'}
+                  onDOMChange={e =>
+                    this.setState({ owner: e.target.value, ownerCheck: true })
+                  }
+                />
+              </FormField>
+            }
+          />
+          <DuoRow
+            left={<Title>{'Titel'}</Title>}
             right={
               <FormField
                 error={this.state.titleCheck ? undefined : 'Voeg een titel toe'}
               >
                 <TextInput
                   value={this.state.title}
-                  placeHolder={'Naam van het gerecht'}
+                  placeHolder={'Titel van het gerecht'}
                   onDOMChange={e =>
                     this.setState({ title: e.target.value, titleCheck: true })
                   }
@@ -262,10 +288,26 @@ class AddRecipe extends React.Component {
                   accept="image/*"
                   onDrop={this.onImageDrop.bind(this)}
                 >
-                  <Box margin="medium" justify="center" align="center" size="full">
-                    <Paragraph>
-                      Drop je foto hier of klik om te uploaden!
-                    </Paragraph>
+                  <Box
+                    margin="medium"
+                    justify="center"
+                    align="center"
+                    size="full"
+                  >
+                    {this.state.cloudinaryCheck ? (
+                      <Paragraph>
+                        Drop je foto hier of klik om te uploaden!
+                      </Paragraph>
+                    ) : (
+                      <div>
+                        <Paragraph>
+                          Drop je foto hier of klik om te uploaden!
+                        </Paragraph>
+                        <Paragraph style={{ color: 'red' }}>
+                          Vergeet niet je foto te uploaden!
+                        </Paragraph>
+                      </div>
+                    )}
                   </Box>
                 </Dropzone>
                 <div>

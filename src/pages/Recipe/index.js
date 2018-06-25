@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Image,
@@ -9,9 +9,9 @@ import {
   Table,
   TableRow,
   Columns
-} from 'grommet';
-import { Clock, Restaurant, Group } from 'grommet-icons';
-import Spinning from 'grommet/components/icons/Spinning';
+} from "grommet";
+import { Clock, Restaurant, Group, Cafeteria } from "grommet-icons";
+import Spinning from "grommet/components/icons/Spinning";
 
 class Recipe extends React.Component {
   constructor() {
@@ -49,10 +49,12 @@ class Recipe extends React.Component {
             </Heading>
             <Columns size="medium" justify="start">
               <Image src={this.state.recipe.img} size="large" />
-              <Box pad={{ horizontal: 'medium', vertical: 'medium' }}>
+              <Box pad={{ horizontal: "medium", vertical: "medium" }}>
                 <Restaurant />
+                <Paragraph margin="small">{this.state.recipe.owner}</Paragraph>
+                <Cafeteria />
                 <Paragraph margin="small">{this.state.recipe.type}</Paragraph>
-                <Group />{' '}
+                <Group />{" "}
                 <Paragraph margin="small">
                   {this.state.recipe.people} personen
                 </Paragraph>
@@ -74,7 +76,7 @@ class Recipe extends React.Component {
                 </Table>
               </AccordionPanel>
               <AccordionPanel heading="Bereidingswijze">
-                <Paragraph style={{ whiteSpace: 'pre-line' }}>
+                <Paragraph style={{ whiteSpace: "pre-line" }}>
                   {this.state.recipe.instructions}
                 </Paragraph>
               </AccordionPanel>
