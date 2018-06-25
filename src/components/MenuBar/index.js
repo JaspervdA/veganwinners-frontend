@@ -20,7 +20,7 @@ class MenuBar extends React.Component {
             label="Menu"
             icon={<MenuIcon />}
             primary={false}
-            dropAlign={{ left: 'right', top: 'bottom' }}
+            dropAlign={{ right: 'right', top: 'bottom' }}
           >
             <Anchor path={'/'}>Terug naar alle recepten!</Anchor>
             <Anchor path={'/add'}>Recept toevoegen</Anchor>
