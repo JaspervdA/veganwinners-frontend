@@ -1,6 +1,6 @@
-import React from 'react';
-import DuoRow from '../../components/DuoRow';
-import IngredientInput from '../../components/IngredientInput';
+import React from "react";
+import DuoRow from "../../components/DuoRow";
+import IngredientInput from "../../components/IngredientInput";
 import {
   Box,
   Form,
@@ -14,34 +14,23 @@ import {
   Title,
   NumberInput,
   Image
-} from 'grommet';
-import Dropzone from 'react-dropzone';
-import request from 'superagent';
+} from "grommet";
+import Dropzone from "react-dropzone";
+import request from "superagent";
 
 const recipeTypes = [
-  'Voorgerecht',
-  'Bijgerecht',
-  'Hoofdgerecht',
-  'Dessert',
-  'Soep',
-  'Saus',
-  'Lunch'
+  "Voorgerecht",
+  "Bijgerecht",
+  "Hoofdgerecht",
+  "Dessert",
+  "Soep",
+  "Saus",
+  "Lunch"
 ];
 
-const CLOUDINARY_UPLOAD_PRESET = 'idcxycac';
+const CLOUDINARY_UPLOAD_PRESET = "idcxycac";
 const CLOUDINARY_UPLOAD_URL =
-  'https://api.cloudinary.com/v1_1/dsu60ie3p/upload';
-
-const INGREDIENTS = [
-  {
-    item: 'Aubergine',
-    quantity: '1 stuk'
-  },
-  {
-    item: 'Hard broodje',
-    quantity: '4 stuks'
-  }
-];
+  "https://api.cloudinary.com/v1_1/dsu60ie3p/upload";
 
 class AddRecipe extends React.Component {
   constructor(props) {
@@ -54,16 +43,16 @@ class AddRecipe extends React.Component {
       time: undefined,
       people: 4,
       ingredients: [],
-      uploadedFileCloudinaryUrl: ''
+      uploadedFileCloudinaryUrl: ""
     };
   }
 
-  onSubmit = () => {
-    fetch('http://veganwinners.com/api/recipes/add', {
-      method: 'POST',
+  onSubmit = async () => {
+    await fetch("http://veganwinners.com/api/recipes/add", {
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         title: this.state.title,
@@ -76,12 +65,19 @@ class AddRecipe extends React.Component {
       })
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => {
+        console.log(data);
+      });
+    alert(
+      "Bedankt voor je heerlijke recept! Binnen 5 werkdagen zal hij op de site verschijnen."
+    );
+
+    window.location.reload();
   };
 
-  updateIngredients = (newIngredients) => {
-    this.setState({ingredients:newIngredients})
-  }
+  updateIngredients = newIngredients => {
+    this.setState({ ingredients: newIngredients });
+  };
 
   onImageDrop(files) {
     this.setState({
@@ -94,15 +90,15 @@ class AddRecipe extends React.Component {
   handleImageUpload(file) {
     let upload = request
       .post(CLOUDINARY_UPLOAD_URL)
-      .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-      .field('file', file);
+      .field("upload_preset", CLOUDINARY_UPLOAD_PRESET)
+      .field("file", file);
 
     upload.end((err, response) => {
       if (err) {
         console.error(err);
       }
 
-      if (response.body.secure_url !== '') {
+      if (response.body.secure_url !== "") {
         this.setState({
           uploadedFileCloudinaryUrl: response.body.secure_url
         });
@@ -113,24 +109,24 @@ class AddRecipe extends React.Component {
   render() {
     return (
       <Box pad="medium">
-        <Form plain={true} onSubmit={this.onSubmit}>
+        <Form plain={true}>
           <Header>
             <Heading>Recept Toevoegen</Heading>
           </Header>
           <DuoRow
-            left={<Title>{'Naam'}</Title>}
+            left={<Title>{"Naam"}</Title>}
             right={
               <FormField>
                 <TextInput
                   value={this.state.value}
-                  placeHolder={'Naam van het gerecht'}
+                  placeHolder={"Naam van het gerecht"}
                   onDOMChange={e => this.setState({ title: e.target.value })}
                 />
               </FormField>
             }
           />
           <DuoRow
-            left={<Title>{'Soort gerecht'}</Title>}
+            left={<Title>{"Soort gerecht"}</Title>}
             right={
               <FormField>
                 <Select
@@ -142,19 +138,19 @@ class AddRecipe extends React.Component {
             }
           />
           <DuoRow
-            left={<Title>{'Bereidingstijd'}</Title>}
+            left={<Title>{"Bereidingstijd"}</Title>}
             right={
               <FormField>
                 <TextInput
                   value={this.state.time}
                   onDOMChange={e => this.setState({ time: e.target.value })}
-                  placeHolder={'30 minuten'}
+                  placeHolder={"30 minuten"}
                 />
               </FormField>
             }
           />
           <DuoRow
-            left={<Title>{'Aantal personen'}</Title>}
+            left={<Title>{"Aantal personen"}</Title>}
             right={
               <NumberInput
                 value={this.state.people}
@@ -164,15 +160,13 @@ class AddRecipe extends React.Component {
             }
           />
           <DuoRow
-            left={<Title>{'Ingrediënten'}</Title>}
+            left={<Title>{"Ingrediënten"}</Title>}
             right={
-              <IngredientInput
-                updateIngredients={this.updateIngredients}
-              />
+              <IngredientInput updateIngredients={this.updateIngredients} />
             }
           />
           <DuoRow
-            left={<Title>{'Bereidingswijze'}</Title>}
+            left={<Title>{"Bereidingswijze"}</Title>}
             right={
               <FormField>
                 <textarea
@@ -194,7 +188,7 @@ class AddRecipe extends React.Component {
             <p>Drop an image or click to select a file to upload.</p>
           </Dropzone>
           <div>
-            {this.state.uploadedFileCloudinaryUrl === '' ? null : (
+            {this.state.uploadedFileCloudinaryUrl === "" ? null : (
               <div>
                 <p>{this.state.uploadedFile.name}</p>
                 <Image
@@ -204,9 +198,8 @@ class AddRecipe extends React.Component {
               </div>
             )}
           </div>
-          <Button label="test" primary={true} onClick={this.onSubmit} />
-          <Footer pad={{ vertical: 'medium' }}>
-            <Button label="Submit" type="submit" primary={true} />
+          <Footer pad={{ vertical: "medium" }}>
+            <Button label="Submit" primary={true} onClick={this.onSubmit} />
           </Footer>
         </Form>
       </Box>
