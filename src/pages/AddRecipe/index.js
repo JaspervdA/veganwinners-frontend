@@ -83,6 +83,7 @@ class AddRecipe extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        owner: this.state.owner,
         title: this.state.title,
         instructions: this.state.instructions,
         img: this.state.uploadedFileCloudinaryUrl,
@@ -163,8 +164,6 @@ class AddRecipe extends React.Component {
   }
 
   render() {
-    console.log(this.state.ingredients.length);
-    console.log(this.state);
     return (
       <Box pad="medium">
         <Form plain={true}>

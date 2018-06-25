@@ -6,14 +6,21 @@ class MenuBar extends React.Component {
   render() {
     return (
       <Header fixed={true} float={false} splash={false}>
-        <Box flex={true} justify="end" direction="row" responsive={true}>
+        <Box
+          flex={true}
+          align="center"
+          justify="end"
+          direction="row"
+          responsive={true}
+        >
           <Menu
             responsive={true}
-            label='Menu'
+            align="center"
+            justify="center"
+            label="Menu"
             icon={<MenuIcon />}
             primary={false}
             dropAlign={{ left: 'right', top: 'bottom' }}
-            size={'medium'}
           >
             <Anchor path={'/'}>Terug naar alle recepten!</Anchor>
             <Anchor path={'/add'}>Recept toevoegen</Anchor>
