@@ -9,6 +9,7 @@ class MenuBar extends React.Component {
         <Box flex={true} justify="end" direction="row" responsive={true}>
           <Menu
             responsive={true}
+            label='Menu'
             icon={<MenuIcon />}
             primary={false}
             dropAlign={{ left: 'right', top: 'bottom' }}
