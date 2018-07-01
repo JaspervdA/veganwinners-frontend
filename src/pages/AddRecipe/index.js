@@ -18,6 +18,7 @@ import {
 } from 'grommet';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
+import CLOUDINARY_UPLOAD from '../../cloudinary-config'
 
 const recipeTypes = [
   'Voorgerecht',
@@ -29,9 +30,8 @@ const recipeTypes = [
   'Lunch'
 ];
 
-const CLOUDINARY_UPLOAD_PRESET = 'idcxycac';
-const CLOUDINARY_UPLOAD_URL =
-  'https://api.cloudinary.com/v1_1/dsu60ie3p/upload';
+const CLOUDINARY_UPLOAD_PRESET = CLOUDINARY_UPLOAD.preset;
+const CLOUDINARY_UPLOAD_URL = CLOUDINARY_UPLOAD.url;
 
 class AddRecipe extends React.Component {
   constructor(props) {
