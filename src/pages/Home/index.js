@@ -6,10 +6,10 @@ import { Box, Headline, Image } from 'grommet';
 class Home extends React.Component {
   render() {
     return (
-      <Box>
+      <Box pad="medium">
         <WelcomeMessage />
         <Headline align="center" strong={true} colorIndex="accent-3">
-          <Image src='/img/veganwinners.svg' size='large'/>
+          <Image src='/img/veganwinners.svg' size='medium'/>
         </Headline>
         <RecipeList />
       </Box>
