@@ -95,13 +95,21 @@ class AddRecipe extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-      });
-    alert(
-      'Bedankt voor je heerlijke recept! Binnen 5 werkdagen zal hij op de site verschijnen.'
-    );
+        if (data.code === 200) {
+          alert(
+            'Bedankt voor je heerlijke recept! Binnen 5 werkdagen zal hij op de site verschijnen.'
+          );
 
-    window.location.reload();
+          window.location.reload();
+        }
+        else {
+          alert(
+            data.message
+          );
+        }
+
+      });
+
   };
 
   updateIngredients = newIngredients => {
