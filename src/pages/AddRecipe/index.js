@@ -45,6 +45,7 @@ class AddRecipe extends React.Component {
       time: undefined,
       people: 4,
       ingredients: [],
+      previewUrl: '',
       uploadedFileCloudinaryUrl: '',
       check: true,
       ownerCheck: true,
@@ -53,12 +54,12 @@ class AddRecipe extends React.Component {
       typeCheck: true,
       timeCheck: true,
       ingredientsCheck: true,
-      cloudinaryCheck: true
+      imageCheck: true
     };
   }
 
   onSubmit = async () => {
-    await this.checkFields();
+    this.checkFields();
 
     if (
       this.state.titleCheck &&
@@ -66,17 +67,18 @@ class AddRecipe extends React.Component {
       this.state.timeCheck &&
       this.state.ingredientsCheck &&
       this.state.instructionsCheck &&
-      this.state.cloudinaryCheck &&
+      this.state.imageCheck &&
       this.state.ownerCheck
     ) {
-      this.submitData();
+      this.handleImageUpload(this.state.uploadedFile);
+      console.log(this.state.uploadedFileCloudinaryUrl);
     } else {
       alert('Je hebt niet alles ingevuld.');
     }
   };
 
   submitData = async () => {
-    await fetch('http://veganwinners.com/api/recipes/add', {
+    fetch('http://veganwinners.com/api/recipes/add', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -101,15 +103,10 @@ class AddRecipe extends React.Component {
           );
 
           window.location.reload();
+        } else {
+          alert(data.message);
         }
-        else {
-          alert(
-            data.message
-          );
-        }
-
       });
-
   };
 
   updateIngredients = newIngredients => {
@@ -118,10 +115,9 @@ class AddRecipe extends React.Component {
 
   onImageDrop(files) {
     this.setState({
-      uploadedFile: files[0]
+      uploadedFile: files[0],
+      previewUrl: URL.createObjectURL(files[0])
     });
-
-    this.handleImageUpload(files[0]);
   }
 
   handleImageUpload(file) {
@@ -136,9 +132,14 @@ class AddRecipe extends React.Component {
       }
 
       if (response.body.secure_url !== '') {
-        this.setState({
-          uploadedFileCloudinaryUrl: response.body.secure_url
-        });
+        this.setState(
+          {
+            uploadedFileCloudinaryUrl: response.body.secure_url
+          },
+          () => {
+            this.submitData();
+          }
+        );
       }
     });
   }
@@ -164,14 +165,15 @@ class AddRecipe extends React.Component {
     if (this.state.instructions === undefined || '') {
       this.setState({ instructionsCheck: false });
     }
-    if (this.state.uploadedFileCloudinaryUrl === '') {
-      this.setState({ cloudinaryCheck: false });
+    if (this.state.previewUrl === '') {
+      this.setState({ imageCheck: false });
     } else {
-      this.setState({ cloudinaryCheck: true });
+      this.setState({ imageCheck: true });
     }
   }
 
   render() {
+    console.log(this.state.uploadedFileCloudinaryUrl);
     return (
       <Box pad="medium">
         <Form plain={true}>
@@ -301,7 +303,7 @@ class AddRecipe extends React.Component {
                     align="center"
                     size="full"
                   >
-                    {this.state.cloudinaryCheck ? (
+                    {this.state.imageCheck ? (
                       <Paragraph>
                         Drop je foto hier of klik om te uploaden!
                       </Paragraph>
@@ -318,13 +320,10 @@ class AddRecipe extends React.Component {
                   </Box>
                 </Dropzone>
                 <div>
-                  {this.state.uploadedFileCloudinaryUrl === '' ? null : (
+                  {this.state.previewUrl === '' ? null : (
                     <div>
                       <p>{this.state.uploadedFile.name}</p>
-                      <Image
-                        src={this.state.uploadedFileCloudinaryUrl}
-                        size="medium"
-                      />
+                      <Image src={this.state.previewUrl} size="medium" />
                     </div>
                   )}
                 </div>
