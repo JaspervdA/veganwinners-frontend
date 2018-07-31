@@ -71,7 +71,6 @@ class AddRecipe extends React.Component {
       this.state.ownerCheck
     ) {
       this.handleImageUpload(this.state.uploadedFile);
-      console.log(this.state.uploadedFileCloudinaryUrl);
     } else {
       alert('Je hebt niet alles ingevuld.');
     }
@@ -92,7 +91,7 @@ class AddRecipe extends React.Component {
         type: this.state.type,
         time: this.state.time,
         people: this.state.people,
-        ingredients: this.state.ingredients
+        ingredients: this.state.ingredients.filter(x => x !== {})
       })
     })
       .then(response => response.json())
@@ -173,7 +172,6 @@ class AddRecipe extends React.Component {
   }
 
   render() {
-    console.log(this.state.uploadedFileCloudinaryUrl);
     return (
       <Box pad="medium">
         <Form plain={true}>
