@@ -98,7 +98,7 @@ class AddRecipe extends React.Component {
       .then(data => {
         if (data.code === 200) {
           alert(
-            'Bedankt voor je heerlijke recept! Binnen 5 werkdagen zal hij op de site verschijnen.'
+            'Bedankt voor je recept! Veganwinners zal zo snel mogelijk je recept keuren ;)'
           );
 
           window.location.reload();

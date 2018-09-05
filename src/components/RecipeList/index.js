@@ -8,13 +8,12 @@ class RecipeList extends React.Component {
     super();
     this.state = {
       isLoading: true,
-      numRecipes: 20,
       recipes: [],
     }
   };
 
-  getRecipes(numRecipes) {
-    fetch(`http://veganwinners.com/api/recipes/${numRecipes}`)
+  getRecipes() {
+    fetch(`http://veganwinners.com/api/recipes/approved`)
       .then(response => response.json())
       .then(data =>
         this.setState({
@@ -25,7 +24,7 @@ class RecipeList extends React.Component {
   }
 
   componentDidMount() {
-    this.getRecipes(this.state.numRecipes);
+    this.getRecipes();
   }
 
   render() {
