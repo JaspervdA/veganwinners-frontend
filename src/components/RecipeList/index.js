@@ -3,11 +3,11 @@ import { Box, Columns, Image } from "grommet";
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";
 
-var randomnumber = Math.floor(Math.random() * (100));
-
 function getColor(id) {
-  let colors = ['#FDD835', '#f44336', '#8BC34A', '#FF9100', '#BA68C8']
-  return colors[(id + randomnumber)%5]
+  let colors = ['#1565C0', '#FBC02D', '#FB8C00', '#880E4F', '#2E7D32', '#ef9a9a', '#26C6DA']
+  // blauw, okergeel, oranje, paars, groen, roze, turqoise
+  let randomnumber = Math.floor(Math.random() * (100))
+  return colors[(id + randomnumber)%7]
 }
 
 class RecipeList extends React.Component {
@@ -48,16 +48,17 @@ class RecipeList extends React.Component {
               justify="center"
               pad="small"
               margin="small"
-              style={{backgroundColor: getColor(recipe.id)}}
+              style={{ backgroundColor: getColor(recipe.id), boxShadow: "7px 7px 5px #B0BEC5", borderColor: "#B0BEC5", borderRadius: "12px"}}
             >
               <Link
                 to={{ pathname: `/recipe/${recipe.id}` }}
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: "none", color: '#FFFFFF' }}
               >
                 <Image
                   src={recipe.img}
                   size="large"
                   caption={recipe.title}
+                  style={{ borderStyle: "groove ridge ridge groove", borderRadius: "12px"}}
                 />
               </Link>
             </Box>

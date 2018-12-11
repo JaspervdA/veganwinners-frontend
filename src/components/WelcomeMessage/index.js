@@ -3,6 +3,6 @@ import { Toast } from 'grommet';
 
 export default () => (
   <Toast status='ok'>
-    Vanaf nu kan je recepten met ons delen! Ga in het menu naar <a href="/add">'Recept toevoegen'</a>.
+    Er is weer het een en ander gedaan aan de layout van de website, laat ons weten wat je ervan vindt!
   </Toast>
 )

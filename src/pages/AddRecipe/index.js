@@ -18,7 +18,7 @@ import {
 } from 'grommet';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
-import CLOUDINARY_UPLOAD from '../../cloudinary-config'
+import { CLOUDINARY_UPLOAD } from '../../cloudinary-config'
 
 const recipeTypes = [
   'Voorgerecht',
