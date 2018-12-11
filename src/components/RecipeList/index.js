@@ -52,7 +52,7 @@ class RecipeList extends React.Component {
             >
               <Link
                 to={{ pathname: `/recipe/${recipe.id}` }}
-                style={{ textDecoration: "none", color: '#FFFFFF' }}
+                style={{ textDecoration: "none", color: '#FFFFFF', fontWeight: '600' }}
               >
                 <Image
                   src={recipe.img}
