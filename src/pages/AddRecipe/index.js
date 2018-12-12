@@ -18,7 +18,6 @@ import {
 } from 'grommet';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
-import { CLOUDINARY_UPLOAD } from '../../cloudinary-config'
 
 const recipeTypes = [
   'Voorgerecht',
@@ -29,9 +28,6 @@ const recipeTypes = [
   'Saus',
   'Lunch'
 ];
-
-const CLOUDINARY_UPLOAD_PRESET = CLOUDINARY_UPLOAD.preset;
-const CLOUDINARY_UPLOAD_URL = CLOUDINARY_UPLOAD.url;
 
 class AddRecipe extends React.Component {
   constructor(props) {
@@ -45,7 +41,6 @@ class AddRecipe extends React.Component {
       time: undefined,
       people: 4,
       ingredients: [],
-      previewUrl: '',
       uploadedFileCloudinaryUrl: '',
       check: true,
       ownerCheck: true,
@@ -54,7 +49,8 @@ class AddRecipe extends React.Component {
       typeCheck: true,
       timeCheck: true,
       ingredientsCheck: true,
-      imageCheck: true
+      imageCheck: true,
+      foodCheck: true
     };
   }
 
@@ -70,7 +66,7 @@ class AddRecipe extends React.Component {
       this.state.imageCheck &&
       this.state.ownerCheck
     ) {
-      this.handleImageUpload(this.state.uploadedFile);
+      this.submitData();
     } else {
       alert('Je hebt niet alles ingevuld.');
     }
@@ -113,33 +109,37 @@ class AddRecipe extends React.Component {
   };
 
   onImageDrop(files) {
-    this.setState({
-      uploadedFile: files[0],
-      previewUrl: URL.createObjectURL(files[0])
-    });
-  }
-
-  handleImageUpload(file) {
     let upload = request
-      .post(CLOUDINARY_UPLOAD_URL)
-      .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-      .field('file', file);
+      .post('http://veganwinners.com/api/classify/upload-image')
+      .field('img', files[0]);
 
     upload.end((err, response) => {
       if (err) {
         console.error(err);
       }
 
-      if (response.body.secure_url !== '') {
-        this.setState(
-          {
-            uploadedFileCloudinaryUrl: response.body.secure_url
-          },
-          () => {
-            this.submitData();
-          }
-        );
+      // "food": True,
+      //           "forbidden": forbidden,
+      //           "used": used,
+      //           "url": img_url
+
+      if (response.body.data.food === false) {
+        this.setState({
+          imageCheck: false,
+          foodCheck: false,
+          uploadedFileCloudinaryUrl: ''
+        });
       }
+      else if (response.body.data.food === true) {
+        console.log(response.body.data)
+        this.setState({
+          uploadedFile: files[0],
+          uploadedFileCloudinaryUrl: response.body.data.url,
+          imageCheck: true,
+          foodCheck: true
+        });
+      }
+
     });
   }
 
@@ -164,7 +164,7 @@ class AddRecipe extends React.Component {
     if (this.state.instructions === undefined || '') {
       this.setState({ instructionsCheck: false });
     }
-    if (this.state.previewUrl === '') {
+    if (this.state.uploadedFileCloudinaryUrl === '') {
       this.setState({ imageCheck: false });
     } else {
       this.setState({ imageCheck: true });
@@ -178,6 +178,54 @@ class AddRecipe extends React.Component {
           <Header>
             <Heading>Recept Toevoegen</Heading>
           </Header>
+          {this.state.foodCheck ? null : (
+            <Paragraph style={{ color: 'red' }}>
+              Hee, houd ons niet voor de gek! <br/> <br/> Wij zien heus wel dat er geen eten op dat plaatje staat...
+            </Paragraph>
+          )}
+
+          <DuoRow
+            left={<Title>{'Foto'}</Title>}
+            right={
+              <div>
+                <Dropzone
+                  multiple={false}
+                  accept="image/*"
+                  onDrop={this.onImageDrop.bind(this)}
+                >
+                  <Box
+                    margin="medium"
+                    justify="center"
+                    align="center"
+                    size="full"
+                  >
+                    {this.state.imageCheck ? (
+                      <Paragraph>
+                        Drop je foto hier of klik om te uploaden!
+                      </Paragraph>
+                    ) : (
+                      <div>
+                        <Paragraph>
+                          Drop je foto hier of klik om te uploaden!
+                        </Paragraph>
+                        <Paragraph style={{ color: 'red' }}>
+                          Vergeet niet je foto te uploaden!
+                        </Paragraph>
+                      </div>
+                    )}
+                  </Box>
+                </Dropzone>
+                <div>
+                  {this.state.uploadedFileCloudinaryUrl === '' ? null : (
+                    <div>
+                      <p>{this.state.uploadedFile.name}</p>
+                      <Image src={this.state.uploadedFileCloudinaryUrl} size="medium" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            }
+          />
           <DuoRow
             left={<Title>{'De chef'}</Title>}
             right={
@@ -284,48 +332,6 @@ class AddRecipe extends React.Component {
                   }
                 />
               </FormField>
-            }
-          />
-          <DuoRow
-            left={<Title>{'Foto'}</Title>}
-            right={
-              <div>
-                <Dropzone
-                  multiple={false}
-                  accept="image/*"
-                  onDrop={this.onImageDrop.bind(this)}
-                >
-                  <Box
-                    margin="medium"
-                    justify="center"
-                    align="center"
-                    size="full"
-                  >
-                    {this.state.imageCheck ? (
-                      <Paragraph>
-                        Drop je foto hier of klik om te uploaden!
-                      </Paragraph>
-                    ) : (
-                      <div>
-                        <Paragraph>
-                          Drop je foto hier of klik om te uploaden!
-                        </Paragraph>
-                        <Paragraph style={{ color: 'red' }}>
-                          Vergeet niet je foto te uploaden!
-                        </Paragraph>
-                      </div>
-                    )}
-                  </Box>
-                </Dropzone>
-                <div>
-                  {this.state.previewUrl === '' ? null : (
-                    <div>
-                      <p>{this.state.uploadedFile.name}</p>
-                      <Image src={this.state.previewUrl} size="medium" />
-                    </div>
-                  )}
-                </div>
-              </div>
             }
           />
           <Footer pad={{ vertical: 'medium' }}>

@@ -2,16 +2,7 @@
 The frontend repository for our recipe sharing website.
 
 ## Start locally
-First, create a file `src/cloudinary-config.js`, with the content:
-
-```
-export const CLOUDINARY_UPLOAD = {
-  preset: "<your preset>", // look here: https://cloudinary.com/console/settings/upload
-  url: "https://api.cloudinary.com/v1_1/<your project>/upload"
-}
-```
-
-Then, change the content of your `node_modules/grommet/scss/vanilla/_vanilla.defaults.scss`:
+First, change the content of your `node_modules/grommet/scss/vanilla/_vanilla.defaults.scss`:
 ```
 // (C) Copyright 2014-2016 Hewlett Packard Enterprise Development LP
 /* geel, #EAB126
