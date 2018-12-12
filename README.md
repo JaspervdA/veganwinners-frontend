@@ -6,7 +6,7 @@ First, create a file `src/cloudinary-config.js`, with the content:
 
 ```
 export const CLOUDINARY_UPLOAD = {
-  preset: "<your preset>",
+  preset: "<your preset>", // look here: https://cloudinary.com/console/settings/upload
   url: "https://api.cloudinary.com/v1_1/<your project>/upload"
 }
 ```

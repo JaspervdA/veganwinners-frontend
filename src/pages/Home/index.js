@@ -8,9 +8,11 @@ class Home extends React.Component {
     return (
       <Box responsive="true">
         <WelcomeMessage />
-        <Headline align="center" strong={true} colorIndex="accent-3">
-          <Image src="/img/veganwinners.svg" size="medium" />
-        </Headline>
+        <Box pad="medium">
+          <Headline align="center" strong={true} colorIndex="accent-3">
+            <Image src="/img/veganwinners.svg" size="medium" />
+          </Headline>
+        </Box>
         <RecipeList />
       </Box>
     );
