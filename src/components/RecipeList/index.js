@@ -1,16 +1,23 @@
-import React from 'react';
-import { Box, Card, Columns } from 'grommet';
-import { Link } from 'react-router-dom';
-import Spinning from 'grommet/components/icons/Spinning';
+import React from "react";
+import { Box, Columns, Image } from "grommet";
+import { Link } from "react-router-dom";
+import Spinning from "grommet/components/icons/Spinning";
+
+function getColor(id) {
+  let colors = ['#1565C0', '#FBC02D', '#FB8C00', '#880E4F', '#2E7D32', '#ef9a9a', '#26C6DA']
+  // blauw, okergeel, oranje, paars, groen, roze, turqoise
+  let randomnumber = Math.floor(Math.random() * (100))
+  return colors[(id + randomnumber)%7]
+}
 
 class RecipeList extends React.Component {
   constructor() {
     super();
     this.state = {
       isLoading: true,
-      recipes: [],
-    }
-  };
+      recipes: []
+    };
+  }
 
   getRecipes() {
     fetch(`http://veganwinners.com/api/recipes/approved`)
@@ -28,15 +35,10 @@ class RecipeList extends React.Component {
   }
 
   render() {
+
+
     return (
-      <Columns
-        size="medium"
-        justify="center"
-        maxCount={2}
-        style={{
-          backgroundImage: `url( '/img/wildtextures-wooden-chopping-board-texture.jpg')`
-        }}
-      >
+      <Columns size="medium" justify="center" maxCount={3}>
         {this.state.isLoading && <Spinning />}
         {!this.state.isLoading &&
           this.state.recipes.map(recipe => (
@@ -44,19 +46,19 @@ class RecipeList extends React.Component {
               key={recipe.id}
               align="center"
               justify="center"
-              pad={{ horizontal: 'medium', vertical: 'medium' }}
-              margin="large"
-              colorIndex="light-1"
+              pad="small"
+              margin="small"
+              style={{ backgroundColor: getColor(recipe.id), boxShadow: "7px 7px 5px #B0BEC5", borderColor: "#B0BEC5", borderRadius: "12px"}}
             >
               <Link
                 to={{ pathname: `/recipe/${recipe.id}` }}
-                style={{ textDecoration: 'none' }}
+                style={{ textDecoration: "none", color: '#FFFFFF', fontWeight: '600' }}
               >
-                <Card
-                  thumbnail={recipe.img}
-                  heading={recipe.title}
-                  contentPad="medium"
-                  textSize="small"
+                <Image
+                  src={recipe.img}
+                  size="large"
+                  caption={recipe.title}
+                  style={{ borderStyle: "groove ridge ridge groove", borderRadius: "12px"}}
                 />
               </Link>
             </Box>
