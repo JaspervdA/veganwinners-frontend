@@ -118,11 +118,6 @@ class AddRecipe extends React.Component {
         console.error(err);
       }
 
-      // "food": True,
-      //           "forbidden": forbidden,
-      //           "used": used,
-      //           "url": img_url
-
       if (response.body.data.food === false) {
         this.setState({
           imageCheck: false,
@@ -131,7 +126,6 @@ class AddRecipe extends React.Component {
         });
       }
       else if (response.body.data.food === true) {
-        console.log(response.body.data)
         this.setState({
           uploadedFile: files[0],
           uploadedFileCloudinaryUrl: response.body.data.url,
