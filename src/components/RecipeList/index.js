@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Columns, Image } from "grommet";
+import { Box, Columns, Image, Anchor } from "grommet";
+import { Favorite } from "grommet-icons";
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";
 
@@ -19,6 +20,18 @@ class RecipeList extends React.Component {
     };
   }
 
+  addLike = async recipeNumber => {
+    fetch(`http://veganwinners.com/api/recipes/${recipeNumber}/likes`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.code === 200) {
+          window.location.reload();
+        } else {
+          alert(data.message);
+        }
+      });
+  };
+
   getRecipes() {
     fetch(`http://veganwinners.com/api/recipes/approved`)
       .then(response => response.json())
@@ -35,7 +48,6 @@ class RecipeList extends React.Component {
   }
 
   render() {
-
 
     return (
       <Columns size="medium" justify="center" maxCount={3}>
@@ -61,6 +73,13 @@ class RecipeList extends React.Component {
                   style={{ borderStyle: "groove ridge ridge groove", borderRadius: "12px"}}
                 />
               </Link>
+              <Anchor
+                onClick={() => {
+                  this.addLike(recipe.id);
+                }}
+                icon={<Favorite style={{ stroke: "white" }} />}
+                label={" " + recipe.likes + " likes"}
+              />
             </Box>
           ))}
       </Columns>

@@ -8,9 +8,10 @@ import {
   Paragraph,
   Table,
   TableRow,
-  Columns
+  Columns,
+  Anchor
 } from "grommet";
-import { Clock, Restaurant, Group, Cafeteria } from "grommet-icons";
+import { Clock, Restaurant, Group, Cafeteria, Favorite } from "grommet-icons";
 import Spinning from "grommet/components/icons/Spinning";
 
 class Recipe extends React.Component {
@@ -32,6 +33,18 @@ class Recipe extends React.Component {
         })
       );
   }
+
+  addLike = async recipeNumber => {
+    fetch(`http://veganwinners.com/api/recipes/${recipeNumber}/likes`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.code === 200) {
+          window.location.reload();
+        } else {
+          alert(data.message);
+        }
+      });
+  };
 
   componentDidMount() {
     var recipeId = this.props.match.params.id;
@@ -62,6 +75,13 @@ class Recipe extends React.Component {
                 <Paragraph margin="small">{this.state.recipe.time}</Paragraph>
               </Box>
             </Columns>
+            <Anchor
+              onClick={() => {
+                this.addLike(this.props.match.params.id);
+              }}
+              icon={<Favorite style={{ stroke: "pink" }} />}
+              label={" " + this.state.recipe.likes + " likes"}
+            />
             <Accordion openMulti={true}>
               <AccordionPanel heading="Ingrediënten">
                 <Table scrollable={false}>
