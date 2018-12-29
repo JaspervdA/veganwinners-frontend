@@ -52,6 +52,9 @@ class Recipe extends React.Component {
         .then(response => response.json())
         .then(data => {
           if (data.code === 200) {
+            alert(
+              "Bedankt voor je review! Veganwinners zal zo snel mogelijk je review keuren ;)"
+            );
             window.location.reload();
           } else {
             alert(data.message);
