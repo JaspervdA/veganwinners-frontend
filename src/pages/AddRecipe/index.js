@@ -167,16 +167,16 @@ class AddRecipe extends React.Component {
   }
 
   checkFields() {
-    if (this.state.title === undefined || "") {
+    if (this.state.title === undefined || this.state.title === "") {
       this.setState({ titleCheck: false });
     }
-    if (this.state.type === undefined || "") {
+    if (this.state.type === undefined || this.state.type === "") {
       this.setState({ typeCheck: false });
     }
-    if (this.state.time === undefined || "") {
+    if (this.state.time === undefined || this.state.time === "") {
       this.setState({ timeCheck: false });
     }
-    if (this.state.owner === undefined || "") {
+    if (this.state.owner === undefined || this.state.owner === "") {
       this.setState({ ownerCheck: false });
     }
     if (this.state.ingredients.length === 0) {
@@ -184,7 +184,10 @@ class AddRecipe extends React.Component {
     } else {
       this.setState({ ingredientsCheck: true });
     }
-    if (this.state.instructions === undefined || "") {
+    if (
+      this.state.instructions === undefined ||
+      this.state.instructions === ""
+    ) {
       this.setState({ instructionsCheck: false });
     }
     if (this.state.uploadedFileCloudinaryUrl === "") {
@@ -254,7 +257,7 @@ class AddRecipe extends React.Component {
             }
           />
           {this.state.forbiddenIngredients.length < 1 ? null : (
-            <Box pad='small'>
+            <Box pad="small">
               <Paragraph style={{ color: "green" }}>
                 Weet je zeker dat er niet iets van{" "}
                 {this.state.forbiddenIngredients.join(", ")} op deze foto staat?
@@ -398,7 +401,7 @@ class AddRecipe extends React.Component {
                 error={
                   this.state.instructionsCheck
                     ? undefined
-                    : "Voeg een bereidingstijd toe"
+                    : "Voeg een bereidingswijze toe"
                 }
               >
                 <textarea
@@ -416,7 +419,7 @@ class AddRecipe extends React.Component {
             }
           />
           <Footer pad={{ vertical: "medium" }}>
-            <Button label="Submit" primary={true} onClick={this.onSubmit} />
+            <Button label="Sturen" primary={true} onClick={this.onSubmit} />
           </Footer>
         </Form>
       </Box>
