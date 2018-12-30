@@ -116,13 +116,15 @@ class AddRecipe extends React.Component {
   };
 
   addIngredient(item, quantity) {
-    console.log(this.state.ingredients);
-    this.setState({
-      ingredients: [
-        ...this.state.ingredients,
-        { item: item, quantity: quantity }
-      ]
-    });
+    let currentItems = this.state.ingredients.map(x => x.item)
+    if (item === undefined || !currentItems.includes(item)){
+      this.setState({
+        ingredients: [
+          ...this.state.ingredients,
+          { item: item, quantity: quantity }
+        ]
+      });
+    }
   }
 
   removeIngredient() {
