@@ -3,6 +3,6 @@ import { Toast } from 'grommet';
 
 export default () => (
   <Toast status='ok'>
-    Er is weer het een en ander gedaan aan de layout van de website, laat ons weten wat je ervan vindt!
+    Er kan vanaf nu geliked en gereviewd worden: let's go!!!
   </Toast>
 )

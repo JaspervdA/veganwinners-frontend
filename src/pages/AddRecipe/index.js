@@ -1,6 +1,6 @@
-import React from 'react';
-import DuoRow from '../../components/DuoRow';
-import IngredientInput from '../../components/IngredientInput';
+import React from "react";
+import DuoRow from "../../components/DuoRow";
+import Ingredient from "../../components/Ingredient";
 import {
   Box,
   Form,
@@ -15,18 +15,18 @@ import {
   NumberInput,
   Paragraph,
   Image
-} from 'grommet';
-import Dropzone from 'react-dropzone';
-import request from 'superagent';
+} from "grommet";
+import Dropzone from "react-dropzone";
+import request from "superagent";
 
 const recipeTypes = [
-  'Voorgerecht',
-  'Bijgerecht',
-  'Hoofdgerecht',
-  'Dessert',
-  'Soep',
-  'Saus',
-  'Lunch'
+  "Voorgerecht",
+  "Bijgerecht",
+  "Hoofdgerecht",
+  "Dessert",
+  "Soep",
+  "Saus",
+  "Lunch"
 ];
 
 class AddRecipe extends React.Component {
@@ -41,7 +41,9 @@ class AddRecipe extends React.Component {
       time: undefined,
       people: 4,
       ingredients: [],
-      uploadedFileCloudinaryUrl: '',
+      uploadedFileCloudinaryUrl: "",
+      forbiddenIngredients: [],
+      suggestedIngredients: [],
       check: true,
       ownerCheck: true,
       titleCheck: true,
@@ -55,7 +57,7 @@ class AddRecipe extends React.Component {
   }
 
   onSubmit = async () => {
-    this.checkFields();
+    await this.checkFields();
 
     if (
       this.state.titleCheck &&
@@ -68,16 +70,16 @@ class AddRecipe extends React.Component {
     ) {
       this.submitData();
     } else {
-      alert('Je hebt niet alles ingevuld.');
+      alert("Je hebt niet alles ingevuld. Heb je wel ingredienten toegevoegd?");
     }
   };
 
   submitData = async () => {
-    fetch('http://veganwinners.com/api/recipes/add', {
-      method: 'POST',
+    fetch("http://veganwinners.com/api/recipes/add", {
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         owner: this.state.owner,
@@ -94,7 +96,7 @@ class AddRecipe extends React.Component {
       .then(data => {
         if (data.code === 200) {
           alert(
-            'Bedankt voor je recept! Veganwinners zal zo snel mogelijk je recept keuren ;)'
+            "Bedankt voor je recept! Veganwinners zal zo snel mogelijk je recept keuren ;)"
           );
 
           window.location.reload();
@@ -104,14 +106,42 @@ class AddRecipe extends React.Component {
       });
   };
 
-  updateIngredients = newIngredients => {
-    this.setState({ ingredients: newIngredients });
+  handleChange = async (ingredient, index) => {
+    const ingredients = this.state.ingredients;
+    ingredients[index] = ingredient;
+
+    await this.setState({
+      ingredients
+    });
   };
 
+  addIngredient(item, quantity) {
+    let currentItems = this.state.ingredients.map(x => x.item)
+    if (item === undefined || !currentItems.includes(item)){
+      this.setState({
+        ingredients: [
+          ...this.state.ingredients,
+          { item: item, quantity: quantity }
+        ]
+      });
+    }
+  }
+
+  removeIngredient() {
+    if (this.state.ingredients.length > 0) {
+      this.setState({
+        ingredients: this.state.ingredients.slice(0, -1)
+      });
+    } else {
+      console.log("kan niks meer verwijderen");
+    }
+  }
+
   onImageDrop(files) {
+    console.log(this.state);
     let upload = request
-      .post('http://veganwinners.com/api/classify/upload-image')
-      .field('img', files[0]);
+      .post("http://veganwinners.com/api/classify/upload-image")
+      .field("img", files[0]);
 
     upload.end((err, response) => {
       if (err) {
@@ -122,32 +152,33 @@ class AddRecipe extends React.Component {
         this.setState({
           imageCheck: false,
           foodCheck: false,
-          uploadedFileCloudinaryUrl: ''
+          uploadedFileCloudinaryUrl: ""
         });
-      }
-      else if (response.body.data.food === true) {
+      } else if (response.body.data.food === true) {
         this.setState({
           uploadedFile: files[0],
           uploadedFileCloudinaryUrl: response.body.data.url,
           imageCheck: true,
-          foodCheck: true
+          foodCheck: true,
+          forbiddenIngredients: response.body.data.forbidden,
+          suggestedIngredients: response.body.data.used
         });
       }
-
+      console.log(this.state);
     });
   }
 
   checkFields() {
-    if (this.state.title === undefined || '') {
+    if (this.state.title === undefined || this.state.title === "") {
       this.setState({ titleCheck: false });
     }
-    if (this.state.type === undefined || '') {
+    if (this.state.type === undefined || this.state.type === "") {
       this.setState({ typeCheck: false });
     }
-    if (this.state.time === undefined || '') {
+    if (this.state.time === undefined || this.state.time === "") {
       this.setState({ timeCheck: false });
     }
-    if (this.state.owner === undefined || '') {
+    if (this.state.owner === undefined || this.state.owner === "") {
       this.setState({ ownerCheck: false });
     }
     if (this.state.ingredients.length === 0) {
@@ -155,10 +186,13 @@ class AddRecipe extends React.Component {
     } else {
       this.setState({ ingredientsCheck: true });
     }
-    if (this.state.instructions === undefined || '') {
+    if (
+      this.state.instructions === undefined ||
+      this.state.instructions === ""
+    ) {
       this.setState({ instructionsCheck: false });
     }
-    if (this.state.uploadedFileCloudinaryUrl === '') {
+    if (this.state.uploadedFileCloudinaryUrl === "") {
       this.setState({ imageCheck: false });
     } else {
       this.setState({ imageCheck: true });
@@ -173,13 +207,14 @@ class AddRecipe extends React.Component {
             <Heading>Recept Toevoegen</Heading>
           </Header>
           {this.state.foodCheck ? null : (
-            <Paragraph style={{ color: 'red' }}>
-              Hee, houd ons niet voor de gek! <br/> <br/> Wij zien heus wel dat er geen eten op dat plaatje staat...
+            <Paragraph style={{ color: "red" }}>
+              Hee, houd ons niet voor de gek! <br /> <br /> Wij zien heus wel
+              dat er geen eten op dat plaatje staat...
             </Paragraph>
           )}
 
           <DuoRow
-            left={<Title>{'Foto'}</Title>}
+            left={<Title>{"Foto"}</Title>}
             right={
               <div>
                 <Dropzone
@@ -202,7 +237,7 @@ class AddRecipe extends React.Component {
                         <Paragraph>
                           Drop je foto hier of klik om te uploaden!
                         </Paragraph>
-                        <Paragraph style={{ color: 'red' }}>
+                        <Paragraph style={{ color: "red" }}>
                           Vergeet niet je foto te uploaden!
                         </Paragraph>
                       </div>
@@ -210,27 +245,38 @@ class AddRecipe extends React.Component {
                   </Box>
                 </Dropzone>
                 <div>
-                  {this.state.uploadedFileCloudinaryUrl === '' ? null : (
+                  {this.state.uploadedFileCloudinaryUrl === "" ? null : (
                     <div>
                       <p>{this.state.uploadedFile.name}</p>
-                      <Image src={this.state.uploadedFileCloudinaryUrl} size="medium" />
+                      <Image
+                        src={this.state.uploadedFileCloudinaryUrl}
+                        size="medium"
+                      />
                     </div>
                   )}
                 </div>
               </div>
             }
           />
+          {this.state.forbiddenIngredients.length < 1 ? null : (
+            <Box pad="small">
+              <Paragraph style={{ color: "green" }}>
+                Weet je zeker dat er niet iets van{" "}
+                {this.state.forbiddenIngredients.join(", ")} op deze foto staat?
+              </Paragraph>
+            </Box>
+          )}
           <DuoRow
-            left={<Title>{'De chef'}</Title>}
+            left={<Title>{"De chef"}</Title>}
             right={
               <FormField
                 error={
-                  this.state.ownerCheck ? undefined : 'Schrijf je naam hier'
+                  this.state.ownerCheck ? undefined : "Schrijf je naam hier"
                 }
               >
                 <TextInput
                   value={this.state.owner}
-                  placeHolder={'Hoe heet je?'}
+                  placeHolder={"Hoe heet je?"}
                   onDOMChange={e =>
                     this.setState({ owner: e.target.value, ownerCheck: true })
                   }
@@ -239,14 +285,14 @@ class AddRecipe extends React.Component {
             }
           />
           <DuoRow
-            left={<Title>{'Titel'}</Title>}
+            left={<Title>{"Titel"}</Title>}
             right={
               <FormField
-                error={this.state.titleCheck ? undefined : 'Voeg een titel toe'}
+                error={this.state.titleCheck ? undefined : "Voeg een titel toe"}
               >
                 <TextInput
                   value={this.state.title}
-                  placeHolder={'Titel van het gerecht'}
+                  placeHolder={"Titel van het gerecht"}
                   onDOMChange={e =>
                     this.setState({ title: e.target.value, titleCheck: true })
                   }
@@ -255,9 +301,9 @@ class AddRecipe extends React.Component {
             }
           />
           <DuoRow
-            left={<Title>{'Soort gerecht'}</Title>}
+            left={<Title>{"Soort gerecht"}</Title>}
             right={
-              <FormField error={this.state.typeCheck ? undefined : 'Error'}>
+              <FormField error={this.state.typeCheck ? undefined : "Error"}>
                 <Select
                   value={this.state.type}
                   onChange={e =>
@@ -269,18 +315,18 @@ class AddRecipe extends React.Component {
             }
           />
           <DuoRow
-            left={<Title>{'Bereidingstijd'}</Title>}
+            left={<Title>{"Bereidingstijd"}</Title>}
             right={
               <FormField
                 error={
                   this.state.timeCheck
                     ? undefined
-                    : 'Voeg een bereidingstijd toe'
+                    : "Voeg een bereidingstijd toe"
                 }
               >
                 <TextInput
                   value={this.state.time}
-                  placeHolder={'30 minuten'}
+                  placeHolder={"30 minuten"}
                   onDOMChange={e =>
                     this.setState({ time: e.target.value, timeCheck: true })
                   }
@@ -289,7 +335,7 @@ class AddRecipe extends React.Component {
             }
           />
           <DuoRow
-            left={<Title>{'Aantal personen'}</Title>}
+            left={<Title>{"Aantal personen"}</Title>}
             right={
               <NumberInput
                 value={this.state.people}
@@ -298,20 +344,66 @@ class AddRecipe extends React.Component {
               />
             }
           />
+          {this.state.suggestedIngredients.length > 0 ? (
+            <DuoRow
+              left={<Title>{"Hiervan iets gebruikt?"}</Title>}
+              right={
+                <Select
+                  inline={true}
+                  multiple={true}
+                  options={this.state.suggestedIngredients}
+                  onSearch={false}
+                  value={this.state.ingredients.map(x => x.item)}
+                  onChange={e => this.addIngredient(e.option, undefined)}
+                />
+              }
+            />
+          ) : null}
           <DuoRow
-            left={<Title>{'Ingrediënten'}</Title>}
+            left={<Title>{"Ingrediënten"}</Title>}
             right={
-              <IngredientInput updateIngredients={this.updateIngredients} />
+              <Box direction="column">
+                {[...Array(this.state.ingredients.length).keys()].map(
+                  number => (
+                    <Ingredient
+                      item={this.state.ingredients[number].item}
+                      quantity={this.state.ingredients[number].quantity}
+                      key={number.toString()}
+                      id={number}
+                      handleChange={this.handleChange}
+                    />
+                  )
+                )}
+                <Box
+                  direction="row"
+                  pad={{
+                    horizontal: "none",
+                    vertical: "none",
+                    between: "small"
+                  }}
+                >
+                  <Button
+                    label="Extra ingredient"
+                    primary={true}
+                    onClick={() => this.addIngredient(undefined, undefined)}
+                  />
+                  <Button
+                    label="Ingredient minder"
+                    primary={true}
+                    onClick={() => this.removeIngredient()}
+                  />
+                </Box>
+              </Box>
             }
           />
           <DuoRow
-            left={<Title>{'Bereidingswijze'}</Title>}
+            left={<Title>{"Bereidingswijze"}</Title>}
             right={
               <FormField
                 error={
                   this.state.instructionsCheck
                     ? undefined
-                    : 'Voeg een bereidingstijd toe'
+                    : "Voeg een bereidingswijze toe"
                 }
               >
                 <textarea
@@ -328,8 +420,8 @@ class AddRecipe extends React.Component {
               </FormField>
             }
           />
-          <Footer pad={{ vertical: 'medium' }}>
-            <Button label="Submit" primary={true} onClick={this.onSubmit} />
+          <Footer pad={{ vertical: "medium" }}>
+            <Button label="Sturen" primary={true} onClick={this.onSubmit} />
           </Footer>
         </Form>
       </Box>
