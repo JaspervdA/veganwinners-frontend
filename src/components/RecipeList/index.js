@@ -1,14 +1,22 @@
 import React from "react";
-import { Box, Columns, Image, Anchor } from "grommet";
+import { Box, Columns, Image, Anchor, TextInput, Button } from "grommet";
 import { Favorite } from "grommet-icons";
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";
 
 function getColor(id) {
-  let colors = ['#1565C0', '#FBC02D', '#FB8C00', '#880E4F', '#2E7D32', '#ef9a9a', '#26C6DA']
+  let colors = [
+    "#1565C0",
+    "#FBC02D",
+    "#FB8C00",
+    "#880E4F",
+    "#2E7D32",
+    "#ef9a9a",
+    "#26C6DA"
+  ];
   // blauw, okergeel, oranje, paars, groen, roze, turqoise
-  let randomnumber = Math.floor(Math.random() * (100))
-  return colors[(id + randomnumber)%7]
+  let randomnumber = Math.floor(Math.random() * 100);
+  return colors[(id + randomnumber) % 7];
 }
 
 class RecipeList extends React.Component {
@@ -16,7 +24,9 @@ class RecipeList extends React.Component {
     super();
     this.state = {
       isLoading: true,
-      recipes: []
+      recipes: [],
+      search: "*",
+      newSearch: "*"
     };
   }
 
@@ -33,7 +43,7 @@ class RecipeList extends React.Component {
   };
 
   getRecipes() {
-    fetch(`http://veganwinners.com/api/recipes/approved`)
+    fetch(`http://veganwinners.com/api/recipes/approved/${this.state.search}`)
       .then(response => response.json())
       .then(data =>
         this.setState({
@@ -48,41 +58,75 @@ class RecipeList extends React.Component {
   }
 
   render() {
-
     return (
-      <Columns size="medium" justify="center" maxCount={3}>
-        {this.state.isLoading && <Spinning />}
-        {!this.state.isLoading &&
-          this.state.recipes.map(recipe => (
-            <Box
-              key={recipe.id}
-              align="center"
-              justify="center"
-              pad="small"
-              margin="small"
-              style={{ backgroundColor: getColor(recipe.id), boxShadow: "7px 7px 5px #B0BEC5", borderColor: "#B0BEC5", borderRadius: "12px"}}
-            >
-              <Link
-                to={{ pathname: `/recipe/${recipe.id}` }}
-                style={{ textDecoration: "none", color: '#FFFFFF', fontWeight: '600' }}
-              >
-                <Image
-                  src={recipe.img}
-                  size="large"
-                  caption={recipe.title}
-                  style={{ borderStyle: "groove ridge ridge groove", borderRadius: "12px"}}
-                />
-              </Link>
-              <Anchor
-                onClick={() => {
-                  this.addLike(recipe.id);
+      <Box>
+        <Box
+          size="auto"
+          direction="row"
+          align="center"
+          justify="center"
+          pad="small"
+        >
+          <Box size="medium">
+            <TextInput
+              value={this.state.search}
+              onDOMChange={e => this.setState({ search: e.target.value })}
+            />
+          </Box>
+          <Box pad="medium">
+            <Button
+              label="Zoeken"
+              primary={true}
+              onClick={() => this.getRecipes()}
+            />
+          </Box>
+        </Box>
+        <Columns size="medium" justify="center" maxCount={3}>
+          {this.state.isLoading && <Spinning />}
+          {!this.state.isLoading &&
+            this.state.recipes.map(recipe => (
+              <Box
+                key={recipe.id}
+                align="center"
+                justify="center"
+                pad="small"
+                margin="small"
+                style={{
+                  backgroundColor: getColor(recipe.id),
+                  boxShadow: "7px 7px 5px #B0BEC5",
+                  borderColor: "#B0BEC5",
+                  borderRadius: "12px"
                 }}
-                icon={<Favorite style={{ stroke: "white" }} />}
-                label={" " + recipe.likes + " likes"}
-              />
-            </Box>
-          ))}
-      </Columns>
+              >
+                <Link
+                  to={{ pathname: `/recipe/${recipe.id}` }}
+                  style={{
+                    textDecoration: "none",
+                    color: "#FFFFFF",
+                    fontWeight: "600"
+                  }}
+                >
+                  <Image
+                    src={recipe.img}
+                    size="large"
+                    caption={recipe.title}
+                    style={{
+                      borderStyle: "groove ridge ridge groove",
+                      borderRadius: "12px"
+                    }}
+                  />
+                </Link>
+                <Anchor
+                  onClick={() => {
+                    this.addLike(recipe.id);
+                  }}
+                  icon={<Favorite style={{ stroke: "white" }} />}
+                  label={" " + recipe.likes + " likes"}
+                />
+              </Box>
+            ))}
+        </Columns>
+      </Box>
     );
   }
 }
