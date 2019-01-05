@@ -12,7 +12,7 @@ groen, #1B7B34*/
 $brand-color: #1B7B34;
 $brand-neutral-colors: (#0A64A0, #DC2878, #501EB4, #49516F);
 $brand-accent-colors: (#00CCEB, #FF7D28);
-$brand-link-color: #FFFFFF;
+$brand-link-color: #1B7B34;
 $brand-status-colors: (
   critical: #FF324D,
   error: #FF324D,

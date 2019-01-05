@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Columns, Image, Anchor, TextInput, Button } from "grommet";
+import { Box, Columns, Image, Anchor, TextInput, Title } from "grommet";
 import { Favorite } from "grommet-icons";
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";
@@ -67,17 +67,13 @@ class RecipeList extends React.Component {
           justify="center"
           pad="small"
         >
+          <Box pad="medium">
+            <Title>{"Zoeken:"}</Title>
+          </Box>
           <Box size="medium">
             <TextInput
               value={this.state.search}
-              onDOMChange={e => this.setState({ search: e.target.value })}
-            />
-          </Box>
-          <Box pad="medium">
-            <Button
-              label="Zoeken"
-              primary={true}
-              onClick={() => this.getRecipes()}
+              onDOMChange={async e => {await this.setState({ search: e.target.value }); this.getRecipes()}}
             />
           </Box>
         </Box>
