@@ -135,8 +135,6 @@ class AddRecipe extends React.Component {
       this.setState({
         ingredients: this.state.ingredients.slice(0, -1)
       });
-    } else {
-      console.log("kan niks meer verwijderen");
     }
   }
 
@@ -210,6 +208,9 @@ class AddRecipe extends React.Component {
     return (
       <Box pad="medium">
         <Form plain={true}>
+        <Paragraph style={{ color: "red" }}>
+              Zit jij op je Iphone? Gebruik dan a.u.b. niet Chrome maar Safari voor uploaden, we zijn bezig een bug op te lossen...
+            </Paragraph>
           <Header>
             <Heading>Recept Toevoegen</Heading>
           </Header>
