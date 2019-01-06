@@ -18,6 +18,7 @@ import {
 } from "grommet";
 import Dropzone from "react-dropzone";
 import request from "superagent";
+import Spinning from "grommet/components/icons/Spinning";
 
 const recipeTypes = [
   "Voorgerecht",
@@ -52,7 +53,8 @@ class AddRecipe extends React.Component {
       timeCheck: true,
       ingredientsCheck: true,
       imageCheck: true,
-      foodCheck: true
+      foodCheck: true,
+      isLoading: false
     };
   }
 
@@ -68,10 +70,12 @@ class AddRecipe extends React.Component {
       this.state.imageCheck &&
       this.state.ownerCheck
     ) {
+      await this.setState({isLoading: true})
       this.submitData();
     } else {
       alert("Je hebt niet alles ingevuld. Heb je wel ingredienten toegevoegd?");
     }
+    await this.setState({isLoading:false})
   };
 
   submitData = async () => {
@@ -98,7 +102,6 @@ class AddRecipe extends React.Component {
           alert(
             "Bedankt voor je recept! Veganwinners zal zo snel mogelijk je recept keuren ;)"
           );
-
           window.location.reload();
         } else {
           alert(data.message);
@@ -138,7 +141,9 @@ class AddRecipe extends React.Component {
   }
 
   onImageDrop(files) {
-    console.log(this.state);
+    this.setState({
+      isLoading: true
+    })
     let upload = request
       .post("http://veganwinners.com/api/classify/upload-image")
       .field("img", files[0]);
@@ -164,7 +169,9 @@ class AddRecipe extends React.Component {
           suggestedIngredients: response.body.data.used
         });
       }
-      console.log(this.state);
+      this.setState({
+        isLoading: false
+      })
     });
   }
 
@@ -212,139 +219,143 @@ class AddRecipe extends React.Component {
               dat er geen eten op dat plaatje staat...
             </Paragraph>
           )}
-
-          <DuoRow
-            left={<Title>{"Foto"}</Title>}
-            right={
-              <div>
-                <Dropzone
-                  multiple={false}
-                  accept="image/*"
-                  onDrop={this.onImageDrop.bind(this)}
-                >
-                  <Box
-                    margin="medium"
-                    justify="center"
-                    align="center"
-                    size="full"
+          
+          {this.state.isLoading && <Spinning />}
+          {!this.state.isLoading &&
+          <div>
+            
+            <DuoRow
+              left={<Title>{"Foto"}</Title>}
+              right={
+                <div>
+                  <Dropzone
+                    multiple={false}
+                    accept="image/*"
+                    onDrop={this.onImageDrop.bind(this)}
                   >
-                    {this.state.imageCheck ? (
-                      <Paragraph>
-                        Drop je foto hier of klik om te uploaden!
-                      </Paragraph>
-                    ) : (
-                      <div>
+                    <Box
+                      margin="medium"
+                      justify="center"
+                      align="center"
+                      size="full"
+                    >
+                      {this.state.imageCheck ? (
                         <Paragraph>
                           Drop je foto hier of klik om te uploaden!
                         </Paragraph>
-                        <Paragraph style={{ color: "red" }}>
-                          Vergeet niet je foto te uploaden!
-                        </Paragraph>
+                      ) : (
+                        <div>
+                          <Paragraph>
+                            Drop je foto hier of klik om te uploaden!
+                          </Paragraph>
+                          <Paragraph style={{ color: "red" }}>
+                            Vergeet niet je foto te uploaden!
+                          </Paragraph>
+                        </div>
+                      )}
+                    </Box>
+                  </Dropzone>
+                  <div>
+                    {this.state.uploadedFileCloudinaryUrl === "" ? null : (
+                      <div>
+                        <p>{this.state.uploadedFile.name}</p>
+                        <Image
+                          src={this.state.uploadedFileCloudinaryUrl}
+                          size="medium"
+                        />
                       </div>
                     )}
-                  </Box>
-                </Dropzone>
-                <div>
-                  {this.state.uploadedFileCloudinaryUrl === "" ? null : (
-                    <div>
-                      <p>{this.state.uploadedFile.name}</p>
-                      <Image
-                        src={this.state.uploadedFileCloudinaryUrl}
-                        size="medium"
-                      />
-                    </div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            }
-          />
-          {this.state.forbiddenIngredients.length < 1 ? null : (
+              }
+            />
+            { this.state.forbiddenIngredients.length < 1 ? null : (
             <Box pad="small">
               <Paragraph style={{ color: "green" }}>
                 Weet je zeker dat er niet iets van{" "}
                 {this.state.forbiddenIngredients.join(", ")} op deze foto staat?
               </Paragraph>
             </Box>
-          )}
-          <DuoRow
-            left={<Title>{"De chef"}</Title>}
-            right={
-              <FormField
-                error={
-                  this.state.ownerCheck ? undefined : "Schrijf je naam hier"
-                }
-              >
-                <TextInput
-                  value={this.state.owner}
-                  placeHolder={"Hoe heet je?"}
-                  onDOMChange={e =>
-                    this.setState({ owner: e.target.value, ownerCheck: true })
+          ) }
+            <DuoRow
+              left={<Title>{"De chef"}</Title>}
+              right={
+                <FormField
+                  error={
+                    this.state.ownerCheck ? undefined : "Schrijf je naam hier"
                   }
-                />
-              </FormField>
-            }
-          />
-          <DuoRow
-            left={<Title>{"Titel"}</Title>}
-            right={
-              <FormField
-                error={this.state.titleCheck ? undefined : "Voeg een titel toe"}
-              >
-                <TextInput
-                  value={this.state.title}
-                  placeHolder={"Titel van het gerecht"}
-                  onDOMChange={e =>
-                    this.setState({ title: e.target.value, titleCheck: true })
+                >
+                  <TextInput
+                    value={this.state.owner}
+                    placeHolder={"Hoe heet je?"}
+                    onDOMChange={e =>
+                      this.setState({ owner: e.target.value, ownerCheck: true })
+                    }
+                  />
+                </FormField>
+              }
+            />
+            <DuoRow
+              left={<Title>{"Titel"}</Title>}
+              right={
+                <FormField
+                  error={this.state.titleCheck ? undefined : "Voeg een titel toe"}
+                >
+                  <TextInput
+                    value={this.state.title}
+                    placeHolder={"Titel van het gerecht"}
+                    onDOMChange={e =>
+                      this.setState({ title: e.target.value, titleCheck: true })
+                    }
+                  />
+                </FormField>
+              }
+            />
+            <DuoRow
+              left={<Title>{"Soort gerecht"}</Title>}
+              right={
+                <FormField error={this.state.typeCheck ? undefined : "Error"}>
+                  <Select
+                    value={this.state.type}
+                    onChange={e =>
+                      this.setState({ type: e.value, typeCheck: true })
+                    }
+                    options={recipeTypes}
+                  />
+                </FormField>
+              }
+            />
+            <DuoRow
+              left={<Title>{"Bereidingstijd"}</Title>}
+              right={
+                <FormField
+                  error={
+                    this.state.timeCheck
+                      ? undefined
+                      : "Voeg een bereidingstijd toe"
                   }
+                >
+                  <TextInput
+                    value={this.state.time}
+                    placeHolder={"30 minuten"}
+                    onDOMChange={e =>
+                      this.setState({ time: e.target.value, timeCheck: true })
+                    }
+                  />
+                </FormField>
+              }
+            />
+            <DuoRow
+              left={<Title>{"Aantal personen"}</Title>}
+              right={
+                <NumberInput
+                  value={this.state.people}
+                  min={1}
+                  onChange={e => this.setState({ people: e.target.value })}
                 />
-              </FormField>
-            }
-          />
-          <DuoRow
-            left={<Title>{"Soort gerecht"}</Title>}
-            right={
-              <FormField error={this.state.typeCheck ? undefined : "Error"}>
-                <Select
-                  value={this.state.type}
-                  onChange={e =>
-                    this.setState({ type: e.value, typeCheck: true })
-                  }
-                  options={recipeTypes}
-                />
-              </FormField>
-            }
-          />
-          <DuoRow
-            left={<Title>{"Bereidingstijd"}</Title>}
-            right={
-              <FormField
-                error={
-                  this.state.timeCheck
-                    ? undefined
-                    : "Voeg een bereidingstijd toe"
-                }
-              >
-                <TextInput
-                  value={this.state.time}
-                  placeHolder={"30 minuten"}
-                  onDOMChange={e =>
-                    this.setState({ time: e.target.value, timeCheck: true })
-                  }
-                />
-              </FormField>
-            }
-          />
-          <DuoRow
-            left={<Title>{"Aantal personen"}</Title>}
-            right={
-              <NumberInput
-                value={this.state.people}
-                min={1}
-                onChange={e => this.setState({ people: e.target.value })}
-              />
-            }
-          />
-          {this.state.suggestedIngredients.length > 0 ? (
+              }
+            />
+            {this.state.suggestedIngredients.length > 0 ? (
             <DuoRow
               left={<Title>{"Hiervan iets gebruikt?"}</Title>}
               right={
@@ -423,6 +434,9 @@ class AddRecipe extends React.Component {
           <Footer pad={{ vertical: "medium" }}>
             <Button label="Sturen" primary={true} onClick={this.onSubmit} />
           </Footer>
+          </div>
+          }
+          
         </Form>
       </Box>
     );
