@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Columns, Image, Anchor, TextInput, Title } from "grommet";
-import { Favorite } from "grommet-icons";
+import { Cafeteria } from "grommet-icons";
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";
 
@@ -29,18 +29,6 @@ class RecipeList extends React.Component {
       newSearch: "*"
     };
   }
-
-  addLike = async recipeNumber => {
-    fetch(`http://veganwinners.com/api/recipes/${recipeNumber}/likes`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.code === 200) {
-          window.location.reload();
-        } else {
-          alert(data.message);
-        }
-      });
-  };
 
   getRecipes() {
     fetch(`http://veganwinners.com/api/recipes/approved/${this.state.search}`)
@@ -113,11 +101,9 @@ class RecipeList extends React.Component {
                   />
                 </Link>
                 <Anchor
-                  onClick={() => {
-                    this.addLike(recipe.id);
-                  }}
-                  icon={<Favorite style={{ stroke: "white" }} />}
-                  label={" " + recipe.likes + " likes"}
+                  icon={<Cafeteria style={{ stroke: "white" }} />}
+                  label={" " + recipe.type}
+                  path={{path: `/recipe/${recipe.id}`}}
                 />
               </Box>
             ))}
