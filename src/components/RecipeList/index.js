@@ -1,8 +1,9 @@
 import React from "react";
-import { Box, Columns, Image, Anchor, TextInput, Title } from "grommet";
+import { Box, Columns, Image, Anchor, TextInput, Select } from "grommet";
 import { Cafeteria } from "grommet-icons";
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";
+import {recipeTypes} from "./RecipeTypes";
 
 function getColor(id) {
   let colors = [
@@ -25,13 +26,15 @@ class RecipeList extends React.Component {
     this.state = {
       isLoading: true,
       recipes: [],
-      search: "*",
-      newSearch: "*"
+      search: '',
+      type: ''
     };
   }
 
   getRecipes() {
-    fetch(`http://veganwinners.com/api/recipes/approved/${this.state.search}`)
+    let searchField = this.state.search.trim() === '' ? '*' : this.state.search 
+    let typeField = this.state.type === '' ? 'Alle' : this.state.type 
+    fetch(`http://veganwinners.com/api/recipes/approved/${searchField}/typed/${typeField}`)
       .then(response => response.json())
       .then(data =>
         this.setState({
@@ -55,15 +58,25 @@ class RecipeList extends React.Component {
           justify="center"
           pad="small"
         >
-          <Box pad="medium">
-            <Title>{"Zoeken:"}</Title>
-          </Box>
           <Box size="medium">
             <TextInput
+              placeHolder='Zoek op naam of ingrediënt'
+              suggestions={['tomaat', 'aubergine', 'comfort bowl', 'mexi']}
+              onSelect={async e => {await this.setState({ search: e.suggestion }); this.getRecipes()}}
               value={this.state.search}
               onDOMChange={async e => {await this.setState({ search: e.target.value }); this.getRecipes()}}
             />
           </Box>
+          <Box size="xsmall"/>
+          <Box size="medium">
+              <Select placeHolder='Wat voor soort gerecht zoek je?'
+              inline={false}
+              multiple={false}
+              options={["Alle"].concat(recipeTypes)}
+              value={this.state.type}
+              onChange={async e => {await this.setState({ type: e.value }); this.getRecipes()}} 
+            />
+          </Box> 
         </Box>
         <Columns size="medium" justify="center" maxCount={3}>
           {this.state.isLoading && <Spinning />}

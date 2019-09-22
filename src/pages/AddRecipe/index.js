@@ -19,16 +19,7 @@ import {
 import Dropzone from "react-dropzone";
 import request from "superagent";
 import Spinning from "grommet/components/icons/Spinning";
-
-const recipeTypes = [
-  "Voorgerecht",
-  "Bijgerecht",
-  "Hoofdgerecht",
-  "Dessert",
-  "Soep",
-  "Saus",
-  "Lunch"
-];
+import {recipeTypes} from "../../components/RecipeList/RecipeTypes";
 
 class AddRecipe extends React.Component {
   constructor(props) {
