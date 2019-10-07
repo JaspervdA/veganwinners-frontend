@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toast } from 'grommet';
+import Toast from 'grommet/components/Toast';
 
 export default () => (
   <Toast status='ok'>

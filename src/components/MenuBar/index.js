@@ -1,5 +1,8 @@
 import React from "react";
-import { Header, Box, Menu, Anchor } from "grommet";
+import Box from "grommet/components/Box";
+import Header from "grommet/components/Header";
+import Menu from "grommet/components/Menu";
+import Anchor from "grommet/components/Anchor";
 import { Menu as MenuIcon } from "grommet-icons";
 
 class MenuBar extends React.Component {

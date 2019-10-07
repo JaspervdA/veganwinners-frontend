@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Button } from "grommet";
+import Box from "grommet/components/Box";
+import Button from "grommet/components/Button";
 import Ingredient from "../Ingredient";
 
 class IngredientInput extends React.Component {

@@ -1,21 +1,20 @@
 import React from "react";
-import {
-  Box,
-  Image,
-  Heading,
-  Accordion,
-  AccordionPanel,
-  Paragraph,
-  Table,
-  TableRow,
-  Columns,
-  Anchor,
-  Carousel,
-  Quote,
-  FormField,
-  Button,
-  TextInput
-} from "grommet";
+import Box from "grommet/components/Box";
+import Image from "grommet/components/Image";
+import Heading from "grommet/components/Heading";
+import Accordion from "grommet/components/Accordion";
+import AccordionPanel from "grommet/components/AccordionPanel";
+import Paragraph from "grommet/components/Paragraph";
+import Table from "grommet/components/Table";
+import TableRow from "grommet/components/TableRow";
+import Columns from "grommet/components/Columns";
+import Anchor from "grommet/components/Anchor";
+import Carousel from "grommet/components/Carousel";
+import Quote from "grommet/components/Quote";
+import FormField from "grommet/components/FormField";
+import Button from "grommet/components/Button";
+import TextInput from "grommet/components/TextInput";
+
 import { Clock, Restaurant, Group, Cafeteria, Favorite } from "grommet-icons";
 import Spinning from "grommet/components/icons/Spinning";
 import DuoRow from "../../components/DuoRow";

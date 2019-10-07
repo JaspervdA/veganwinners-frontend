@@ -1,21 +1,19 @@
 import React from "react";
 import DuoRow from "../../components/DuoRow";
 import Ingredient from "../../components/Ingredient";
-import {
-  Box,
-  Form,
-  Header,
-  Heading,
-  Footer,
-  Button,
-  Select,
-  TextInput,
-  FormField,
-  Title,
-  NumberInput,
-  Paragraph,
-  Image
-} from "grommet";
+import Box from "grommet/components/Box";
+import Form from "grommet/components/Form";
+import Header from "grommet/components/Header";
+import Heading from "grommet/components/Heading";
+import Footer from "grommet/components/Footer";
+import Button from "grommet/components/Button";
+import Select from "grommet/components/Select";
+import TextInput from "grommet/components/TextInput";
+import FormField from "grommet/components/FormField";
+import Title from "grommet/components/Title";
+import NumberInput from "grommet/components/NumberInput";
+import Paragraph from "grommet/components/Paragraph";
+import Image from "grommet/components/Image";
 import Dropzone from "react-dropzone";
 import request from "superagent";
 import Spinning from "grommet/components/icons/Spinning";
@@ -220,11 +218,11 @@ class AddRecipe extends React.Component {
               dat er geen eten op dat plaatje staat...
             </Paragraph>
           )}
-          
+
           {this.state.isLoading && <Spinning />}
           {!this.state.isLoading &&
           <div>
-            
+
             <DuoRow
               left={<Title>{"Foto"}</Title>}
               right={
@@ -437,7 +435,7 @@ class AddRecipe extends React.Component {
           </Footer>
           </div>
           }
-          
+
         </Form>
       </Box>
     );

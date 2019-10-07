@@ -1,10 +1,15 @@
 import React from "react";
-import { Footer as GrommetFooter } from "grommet";
-import { Title, Box, Image, Anchor, Paragraph } from "grommet";
+import Footer from "grommet/components/Footer";
+import Title from "grommet/components/Title";
+import Box from "grommet/components/Box";
+import Image from "grommet/components/Image";
+import Anchor from "grommet/components/Anchor";
+import Paragraph from "grommet/components/Paragraph";
+
 import { Github } from "grommet-icons";
 
 export default () => (
-  <GrommetFooter justify="between" align="center" size="large" pad="medium">
+  <Footer justify="between" align="center" size="large" pad="medium">
     <Title>
       <Image src="/img/veganwinners.svg" size="small" />
     </Title>
@@ -25,5 +30,5 @@ export default () => (
         href="https://github.com/missEnergy/veganwinners-backend"
       />
     </Box>
-  </GrommetFooter>
+  </Footer>
 );

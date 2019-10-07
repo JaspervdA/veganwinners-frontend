@@ -1,5 +1,11 @@
 import React from "react";
-import { Box, Columns, Image, Anchor, TextInput, Title } from "grommet";
+import Box from "grommet/components/Box";
+import Columns from "grommet/components/Columns";
+import Image from "grommet/components/Image";
+import Anchor from "grommet/components/Anchor";
+import TextInput from "grommet/components/TextInput";
+import Title from "grommet/components/Title";
+
 import { Favorite } from "grommet-icons";
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";
