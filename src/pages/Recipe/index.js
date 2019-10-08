@@ -112,6 +112,15 @@ class Recipe extends React.Component {
                 </Paragraph>
                 <Clock />
                 <Paragraph margin="small">{this.state.recipe.time}</Paragraph>
+                <Image
+                  src={this.state.recipe.vegan ? "/vegan_icon_final.png" : "/vega_icon_final.png"}
+                  size="small"
+                  style={{
+                    width: "20%",
+                    height: "auto"
+                  }}
+                />
+                <Paragraph margin="small">{this.state.recipe.vegan ? "Veganistisch" : "Vegetarisch"}</Paragraph>
               </Box>
             </Columns>
             <Accordion openMulti={true}>

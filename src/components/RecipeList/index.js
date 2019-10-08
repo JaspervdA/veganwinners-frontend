@@ -100,7 +100,8 @@ class RecipeList extends React.Component {
                   style={{
                     textDecoration: "none",
                     color: "#FFFFFF",
-                    fontWeight: "600"
+                    fontWeight: "600",
+                    position: "relative"
                   }}
                 >
                   <Image
@@ -110,6 +111,17 @@ class RecipeList extends React.Component {
                     style={{
                       borderStyle: "groove ridge ridge groove",
                       borderRadius: "12px"
+                    }}
+                  />
+                  <Image
+                    src={recipe.vegan ? "/vegan_icon_final.png" : "/vega_icon_final.png"}
+                    size="small"
+                    style={{
+                      position: "absolute",
+                      left: 10,
+                      top: 10,
+                      width: "20%",
+                      height: "auto"
                     }}
                   />
                 </Link>
