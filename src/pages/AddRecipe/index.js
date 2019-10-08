@@ -202,9 +202,6 @@ class AddRecipe extends React.Component {
     return (
       <Box pad="medium">
         <Form plain={true}>
-        <Paragraph style={{ color: "red" }}>
-              Zit jij op je Iphone? Gebruik dan a.u.b. niet Chrome maar Safari voor uploaden, we zijn bezig een bug op te lossen...
-            </Paragraph>
           <Header>
             <Heading>Recept Toevoegen</Heading>
           </Header>
@@ -361,7 +358,7 @@ class AddRecipe extends React.Component {
                     onChange={e => this.setState({ vegan: true})} />
                   <RadioButton id='vegetarisch'
                     name='vegetarisch'
-                    label='vegetarisch (dus bevat wel zuivel of ei)'
+                    label='vegetarisch'
                     checked={!this.state.vegan}
                     onChange={e => this.setState({ vegan: false})} />
                 </Box>
