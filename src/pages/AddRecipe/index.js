@@ -14,21 +14,13 @@ import {
   Title,
   NumberInput,
   Paragraph,
-  Image
+  Image,
+  RadioButton
 } from "grommet";
 import Dropzone from "react-dropzone";
 import request from "superagent";
 import Spinning from "grommet/components/icons/Spinning";
-
-const recipeTypes = [
-  "Voorgerecht",
-  "Bijgerecht",
-  "Hoofdgerecht",
-  "Dessert",
-  "Soep",
-  "Saus",
-  "Lunch"
-];
+import {recipeTypes} from "../../components/RecipeList/RecipeTypes";
 
 class AddRecipe extends React.Component {
   constructor(props) {
@@ -41,6 +33,7 @@ class AddRecipe extends React.Component {
       type: undefined,
       time: undefined,
       people: 4,
+      vegan: true,
       ingredients: [],
       uploadedFileCloudinaryUrl: "",
       forbiddenIngredients: [],
@@ -93,6 +86,7 @@ class AddRecipe extends React.Component {
         type: this.state.type,
         time: this.state.time,
         people: this.state.people,
+        vegan: this.state.vegan,
         ingredients: this.state.ingredients.filter(x => x !== {})
       })
     })
@@ -208,9 +202,6 @@ class AddRecipe extends React.Component {
     return (
       <Box pad="medium">
         <Form plain={true}>
-        <Paragraph style={{ color: "red" }}>
-              Zit jij op je Iphone? Gebruik dan a.u.b. niet Chrome maar Safari voor uploaden, we zijn bezig een bug op te lossen...
-            </Paragraph>
           <Header>
             <Heading>Recept Toevoegen</Heading>
           </Header>
@@ -354,6 +345,23 @@ class AddRecipe extends React.Component {
                   min={1}
                   onChange={e => this.setState({ people: e.target.value })}
                 />
+              }
+            />
+            <DuoRow
+              left={<Title>{"Mijn gerecht is"}</Title>}
+              right={
+                <Box>
+                  <RadioButton id='veganistisch'
+                    name='veganistisch'
+                    label='veganistisch'
+                    checked={this.state.vegan}
+                    onChange={e => this.setState({ vegan: true})} />
+                  <RadioButton id='vegetarisch'
+                    name='vegetarisch'
+                    label='vegetarisch'
+                    checked={!this.state.vegan}
+                    onChange={e => this.setState({ vegan: false})} />
+                </Box>
               }
             />
             {this.state.suggestedIngredients.length > 0 ? (

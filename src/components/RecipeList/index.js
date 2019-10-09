@@ -1,8 +1,9 @@
 import React from "react";
-import { Box, Columns, Image, Anchor, TextInput, Title } from "grommet";
-import { Favorite } from "grommet-icons";
+import { Box, Columns, Image, Anchor, TextInput, Select, Paragraph } from "grommet";
+import { Cafeteria } from "grommet-icons";
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";
+import { recipeTypes } from "./RecipeTypes";
 
 function getColor(id) {
   let colors = [
@@ -25,25 +26,15 @@ class RecipeList extends React.Component {
     this.state = {
       isLoading: true,
       recipes: [],
-      search: "*",
-      newSearch: "*"
+      search: '',
+      type: ''
     };
   }
 
-  addLike = async recipeNumber => {
-    fetch(`http://veganwinners.com/api/recipes/${recipeNumber}/likes`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.code === 200) {
-          window.location.reload();
-        } else {
-          alert(data.message);
-        }
-      });
-  };
-
   getRecipes() {
-    fetch(`http://veganwinners.com/api/recipes/approved/${this.state.search}`)
+    let searchField = this.state.search.trim() === '' ? '*' : this.state.search
+    let typeField = this.state.type === '' ? 'Alle' : this.state.type
+    fetch(`http://veganwinners.com/api/recipes/approved/${searchField}/typed/${typeField}`)
       .then(response => response.json())
       .then(data =>
         this.setState({
@@ -67,14 +58,60 @@ class RecipeList extends React.Component {
           justify="center"
           pad="small"
         >
-          <Box pad="medium">
-            <Title>{"Zoeken:"}</Title>
-          </Box>
           <Box size="medium">
             <TextInput
+              placeHolder='Zoek op naam of ingrediënt'
+              suggestions={['tomaat', 'aubergine', 'comfort bowl', 'mexi']}
+              onSelect={async e => { await this.setState({ search: e.suggestion }); this.getRecipes() }}
               value={this.state.search}
-              onDOMChange={async e => {await this.setState({ search: e.target.value }); this.getRecipes()}}
+              onDOMChange={async e => { await this.setState({ search: e.target.value }); this.getRecipes() }}
             />
+          </Box>
+          <Box size="xsmall" />
+          <Box size="medium">
+            <Select placeHolder='Zoek op soort gerecht'
+              inline={false}
+              multiple={false}
+              options={["Alle"].concat(recipeTypes)}
+              value={this.state.type}
+              onChange={async e => { await this.setState({ type: e.value }); this.getRecipes() }}
+            />
+          </Box>
+        </Box>
+        <Box direction="row"
+          align="center"
+          justify="center">
+          <Box direction="row"
+            align="center"
+            justify="center"
+            style={{
+              flexDirection: "row"
+            }}>
+            <Image
+              src={"/vegan_icon_final.png"}
+              size="small"
+              style={{
+                width: "60",
+                height: "auto"
+              }}
+            />
+            <Paragraph>= veganistisch</Paragraph>
+          </Box>
+          <Box direction="row"
+            align="center"
+            justify="center"
+            style={{
+              flexDirection: "row"
+            }}>
+            <Image
+              src={"/vega_icon_final.png"}
+              size="xsmall"
+              style={{
+                width: "60",
+                height: "auto"
+              }}
+            />
+            <Paragraph>= vegetarisch</Paragraph>
           </Box>
         </Box>
         <Columns size="medium" justify="center" maxCount={3}>
@@ -99,7 +136,8 @@ class RecipeList extends React.Component {
                   style={{
                     textDecoration: "none",
                     color: "#FFFFFF",
-                    fontWeight: "600"
+                    fontWeight: "600",
+                    position: "relative"
                   }}
                 >
                   <Image
@@ -111,13 +149,22 @@ class RecipeList extends React.Component {
                       borderRadius: "12px"
                     }}
                   />
+                  <Image
+                    src={recipe.vegan ? "/vegan_icon_final.png" : "/vega_icon_final.png"}
+                    size="small"
+                    style={{
+                      position: "absolute",
+                      left: 10,
+                      top: 10,
+                      width: "20%",
+                      height: "auto"
+                    }}
+                  />
                 </Link>
                 <Anchor
-                  onClick={() => {
-                    this.addLike(recipe.id);
-                  }}
-                  icon={<Favorite style={{ stroke: "white" }} />}
-                  label={" " + recipe.likes + " likes"}
+                  icon={<Cafeteria style={{ stroke: "white" }} />}
+                  label={" " + recipe.type}
+                  path={{ path: `/recipe/${recipe.id}` }}
                 />
               </Box>
             ))}
