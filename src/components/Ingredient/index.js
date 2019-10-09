@@ -1,5 +1,7 @@
 import React from "react";
-import { Box, TextInput, FormField } from "grommet";
+import Box from "grommet/components/Box";
+import TextInput from "grommet/components/TextInput";
+import FormField from "grommet/components/FormField";
 
 class Ingredient extends React.Component {
   constructor(props) {

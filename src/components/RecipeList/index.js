@@ -1,5 +1,11 @@
 import React from "react";
-import { Box, Columns, Image, Anchor, TextInput, Select, Paragraph } from "grommet";
+import Box from "grommet/components/Box";
+import Columns from "grommet/components/Columns";
+import Image from "grommet/components/Image";
+import Anchor from "grommet/components/Anchor";
+import TextInput from "grommet/components/TextInput";
+import Select from "grommet/components/Select";
+import Paragraph from "grommet/components/Paragraph";
 import { Cafeteria } from "grommet-icons";
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";

@@ -1,5 +1,8 @@
 import React from 'react';
-import { Box, Headline, Image, Paragraph } from 'grommet';
+import Box from 'grommet/components/Box';
+import Headline from 'grommet/components/Headline';
+import Image from 'grommet/components/Image';
+import Paragraph from 'grommet/components/Paragraph';
 
 class About extends React.Component {
   render() {

@@ -1,7 +1,9 @@
 import React from "react";
 import WelcomeMessage from "../../components/WelcomeMessage";
 import RecipeList from "../../components/RecipeList";
-import { Box, Headline, Image } from "grommet";
+import Box from "grommet/components/Box";
+import Headline from "grommet/components/Headline";
+import Image from "grommet/components/Image";
 
 class Home extends React.Component {
   render() {
