@@ -14,8 +14,7 @@ import Quote from "grommet/components/Quote";
 import FormField from "grommet/components/FormField";
 import Button from "grommet/components/Button";
 import TextInput from "grommet/components/TextInput";
-
-import { Clock, Restaurant, Group, Cafeteria, Favorite } from "grommet-icons";
+import { Clock, Restaurant, Group, Cafeteria } from "grommet-icons";
 import Spinning from "grommet/components/icons/Spinning";
 import DuoRow from "../../components/DuoRow";
 
@@ -84,18 +83,6 @@ class Recipe extends React.Component {
       );
   }
 
-  addLike = async recipeNumber => {
-    fetch(`http://veganwinners.com/api/recipes/${recipeNumber}/likes`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.code === 200) {
-          window.location.reload();
-        } else {
-          alert(data.message);
-        }
-      });
-  };
-
   componentDidMount() {
     var recipeId = this.props.match.params.id;
     this.getRecipe(recipeId);
@@ -123,15 +110,17 @@ class Recipe extends React.Component {
                 </Paragraph>
                 <Clock />
                 <Paragraph margin="small">{this.state.recipe.time}</Paragraph>
+                <Image
+                  src={this.state.recipe.vegan ? "/vegan_icon_final.png" : "/vega_icon_final.png"}
+                  size="small"
+                  style={{
+                    width: "20%",
+                    height: "auto"
+                  }}
+                />
+                <Paragraph margin="small">{this.state.recipe.vegan ? "Veganistisch" : "Vegetarisch"}</Paragraph>
               </Box>
             </Columns>
-            <Anchor
-              onClick={() => {
-                this.addLike(this.props.match.params.id);
-              }}
-              icon={<Favorite style={{ stroke: "pink" }} />}
-              label={" " + this.state.recipe.likes + " likes"}
-            />
             <Accordion openMulti={true}>
               <AccordionPanel heading="Ingrediënten">
                 <Table scrollable={false}>
