@@ -3,7 +3,7 @@ import Box from "grommet/components/Box";
 import Header from "grommet/components/Header";
 import Menu from "grommet/components/Menu";
 import Anchor from "grommet/components/Anchor";
-import { Menu as MenuIcon } from "grommet-icons";
+import MenuIcon from "grommet/components/icons/base/Menu";
 
 class MenuBar extends React.Component {
   render() {

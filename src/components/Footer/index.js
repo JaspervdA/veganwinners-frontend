@@ -5,8 +5,7 @@ import Box from "grommet/components/Box";
 import Image from "grommet/components/Image";
 import Anchor from "grommet/components/Anchor";
 import Paragraph from "grommet/components/Paragraph";
-
-import { Github } from "grommet-icons";
+import Github from "grommet/components/icons/base/SocialGithub";
 
 export default () => (
   <Footer justify="between" align="center" size="large" pad="medium">

@@ -6,7 +6,7 @@ import Anchor from "grommet/components/Anchor";
 import TextInput from "grommet/components/TextInput";
 import Select from "grommet/components/Select";
 import Paragraph from "grommet/components/Paragraph";
-import { Cafeteria } from "grommet-icons";
+import Cafeteria from "grommet/components/icons/base/Cafeteria";
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";
 import { recipeTypes } from "./RecipeTypes";

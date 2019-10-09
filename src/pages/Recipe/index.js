@@ -14,7 +14,10 @@ import Quote from "grommet/components/Quote";
 import FormField from "grommet/components/FormField";
 import Button from "grommet/components/Button";
 import TextInput from "grommet/components/TextInput";
-import { Clock, Restaurant, Group, Cafeteria } from "grommet-icons";
+import Clock from "grommet/components/icons/base/Clock";
+import Restaurant from "grommet/components/icons/base/Restaurant";
+import Group from "grommet/components/icons/base/Group";
+import Cafeteria from "grommet/components/icons/base/Cafeteria";
 import Spinning from "grommet/components/icons/Spinning";
 import DuoRow from "../../components/DuoRow";
 
