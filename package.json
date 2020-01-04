@@ -1,19 +1,20 @@
 {
-  "name": "grommet-react-app",
+  "name": "veganwinners-frontend",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.7.6",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
     "autoprefixer": "6.5.1",
-    "babel-core": "6.17.0",
-    "babel-eslint": "7.1.1",
-    "babel-jest": "17.0.2",
-    "babel-loader": "6.2.7",
-    "babel-preset-react-app": "^2.0.1",
+    "babel-loader": "^8.0.6",
     "case-sensitive-paths-webpack-plugin": "1.1.4",
     "chalk": "1.1.3",
     "connect-history-api-fallback": "1.3.0",
     "cross-spawn": "4.0.2",
-    "css-loader": "0.26.0",
     "detect-port": "1.0.1",
     "dotenv": "2.0.0",
     "eslint": "3.8.1",
@@ -23,41 +24,51 @@
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.4.1",
-    "extract-text-webpack-plugin": "1.0.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "0.9.0",
     "filesize": "3.3.0",
     "fs-extra": "0.30.0",
-    "grommet": "^1.2.0",
     "gzip-size": "3.0.0",
-    "html-webpack-plugin": "2.24.0",
     "http-proxy-middleware": "^0.20.0",
-    "jest": "17.0.2",
+    "jest": "^25.0.0",
     "json-loader": "0.5.4",
-    "node-sass": "^4.13.0",
     "object-assign": "4.1.0",
     "path-exists": "2.1.0",
     "promise": "7.1.1",
-    "react-dev-utils": "^0.4.2",
     "recursive-readdir": "2.1.0",
-    "sass-loader": "^4.1.1",
     "strip-ansi": "3.0.1",
     "style-loader": "0.13.1",
-    "url-loader": "0.5.7",
-    "webpack": "^1.14.0",
-    "webpack-dev-server": "1.16.2",
+    "url-loader": "^3.0.0",
+    "webpack-dev-server": "^3.10.1",
     "webpack-manifest-plugin": "1.1.0",
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.7.7",
+    "ajv": "^6.10.2",
+    "babel-eslint": "^7.2.3",
+    "babel-polyfill": "^6.26.0",
+    "bufferutil": "^4.0.1",
+    "canvas": "^2.5.0",
     "cors": "^2.8.4",
+    "cryptiles": "^3.1.3",
+    "grommet": "^1.13.0",
     "grommet-icons": "^0.16.0",
+    "html-webpack-plugin": "^4.0.0-beta.11",
+    "inuit-defaults": "^0.2.3",
+    "mem": "^6.0.1",
+    "node-sass": "^4.13.0",
     "npm": "^6.13.4",
     "react": "^15.4.2",
+    "react-dev-utils": "^10.0.0",
     "react-dom": "^15.4.2",
     "react-dropzone": "^4.2.11",
     "react-router-dom": "^4.2.2",
+    "sass-loader": "^4.1.1",
     "styled-components": "^3.2.3",
-    "superagent": "^3.8.3"
+    "superagent": "^3.8.3",
+    "utf-8-validate": "^5.0.2",
+    "webpack": "^4.41.5"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -90,7 +101,16 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-proposal-class-properties"
+      ],
+      [
+        "@babel/transform-runtime"
+      ]
     ]
   },
   "eslintConfig": {
