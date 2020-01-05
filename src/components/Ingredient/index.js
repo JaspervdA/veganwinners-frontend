@@ -23,8 +23,8 @@ class Ingredient extends React.Component {
           <TextInput
             placeHolder={this.state.item ? null : 'Ingredient'}
             defaultValue={this.state.item ? this.state.item : null}
-            onDOMChange={e => {
-              this.setState({ item: e.target.value });
+            onDOMChange={async e => {
+              await this.setState({ item: e.target.value });
               this.props.handleChange(this.state, this.props.id);
             }}
           />
@@ -34,8 +34,8 @@ class Ingredient extends React.Component {
             placeHolder={
               this.state.quantity ? this.state.quantity : 'Hoeveelheid'
             }
-            onDOMChange={e => {
-              this.setState({ quantity: e.target.value });
+            onDOMChange={async e => {
+              await this.setState({ quantity: e.target.value });
               this.props.handleChange(this.state, this.props.id);
             }}
           />
