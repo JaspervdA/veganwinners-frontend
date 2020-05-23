@@ -1,5 +1,6 @@
 import React from "react";
 import Box from "grommet/components/Box";
+import Button from "grommet/components/Button";
 import Columns from "grommet/components/Columns";
 import Image from "grommet/components/Image";
 import Anchor from "grommet/components/Anchor";
@@ -22,8 +23,7 @@ function getColor(id) {
     "#26C6DA"
   ];
   // blauw, okergeel, oranje, paars, groen, roze, turqoise
-  let randomnumber = Math.floor(Math.random() * 100);
-  return colors[(id + randomnumber) % 7];
+  return colors[(id) % 7];
 }
 
 class RecipeList extends React.Component {
@@ -48,6 +48,7 @@ class RecipeList extends React.Component {
           isLoading: false
         })
       );
+    console.log(this.state.recipes)
   }
 
   componentDidMount() {
@@ -65,24 +66,40 @@ class RecipeList extends React.Component {
           pad="small"
         >
           <Box size="medium">
-            <TextInput
-              placeHolder='Zoek op naam of ingrediënt'
-              suggestions={['tomaat', 'aubergine', 'comfort bowl', 'mexi']}
-              onSelect={async e => { await this.setState({ search: e.suggestion }); this.getRecipes() }}
-              value={this.state.search}
-              onDOMChange={async e => { await this.setState({ search: e.target.value }); this.getRecipes() }}
-            />
-          </Box>
-          <Box size="xsmall" />
-          <Box size="medium">
-            <Select placeHolder='Zoek op soort gerecht'
+          <Select placeHolder='optioneel: soort gerecht'
               inline={false}
               multiple={false}
               options={["Alle"].concat(recipeTypes)}
               value={this.state.type}
-              onChange={async e => { await this.setState({ type: e.value }); this.getRecipes() }}
+              onChange={async e => { await this.setState({ type: e.value })}}
             />
           </Box>
+          <Box size="xsmall" />
+          <Box size="medium">
+            <TextInput autoFocus
+              placeHolder='optioneel: vrij zoeken'
+              value={this.state.search}
+              onDOMChange={async e => { await this.setState({ search: e.target.value }) }}
+              onKeyPress={event => {
+                if (event.key === 'Enter') { 
+                  this.getRecipes()
+                }
+              }}
+            />
+          </Box>
+        </Box>
+        <Box
+          size="auto"
+          direction="row"
+          align="center"
+          justify="center"
+          pad="small"
+        >
+          <Button
+            label="Zoeken"
+            primary={true}
+            onClick={() => this.getRecipes()}
+          />
         </Box>
         <Box direction="row"
           align="center"
@@ -122,6 +139,15 @@ class RecipeList extends React.Component {
         </Box>
         <Columns size="medium" justify="center" maxCount={3}>
           {this.state.isLoading && <Spinning />}
+          {!this.state.isLoading && this.state.recipes.length == 0 && 
+              <Box
+                direction="row"
+                align="center"
+                justify="center"
+                pad="large"
+              >
+                <Paragraph><i>Geen resultaten, zoek iets anders...</i></Paragraph>
+              </Box> }
           {!this.state.isLoading &&
             this.state.recipes.map(recipe => (
               <Box
