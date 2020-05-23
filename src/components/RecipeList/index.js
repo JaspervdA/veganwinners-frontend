@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import Box from "grommet/components/Box";
 import Button from "grommet/components/Button";
 import Columns from "grommet/components/Columns";
@@ -35,16 +35,6 @@ class RecipeList extends React.Component {
   constructor() {
     super();
 
-    // this.scroller = null;
-
-    // this.setScrollerRef = (element) => {
-    //   console.log(element)
-    //   this.scroller = element;
-    // };
-    // this.focusScroller = () => {
-    //   if (this.scroller) this.scroller.focus();
-    // };
-
     this.state = {
       isLoading: true,
       recipes: [],
@@ -53,10 +43,8 @@ class RecipeList extends React.Component {
       type: '',
       page: 1
     };
-  }
 
-  onClick() {
-    this.inputRef.focus();
+    this.scroller = createRef()
   }
 
   getRecipes() {
@@ -97,9 +85,9 @@ class RecipeList extends React.Component {
           margin="small"
           style={{
             width:"100%", 
-            height: "100"
+            height: "100px"
           }}>
-            <Label ref={ref => { this.inputRef = ref; }} align="center"><i>Zin in iets lekkers?</i><br/>Dit zijn de 3 nieuwste recepten op Veganwinners!</Label>
+            <Label align="center"><i>Zin in iets lekkers?</i><br/>Dit zijn de 3 nieuwste recepten op Veganwinners!</Label>
         </Box>
         <Columns size="medium" justify="center" maxCount={3}>
           {this.state.isLoading && <Spinning />}
@@ -135,10 +123,9 @@ class RecipeList extends React.Component {
                       borderStyle: "groove ridge ridge groove",
                       borderRadius: "12px",
                       width:"100%", 
-                      height: "250",
+                      height: "250px",
                       objectFit: "cover" 
                     }}
-                    resizeMode="cover"
                   />
                   <Image
                     src={recipe.vegan ? "/vegan_icon_final.png" : "/vega_icon_final.png"}
@@ -176,7 +163,7 @@ class RecipeList extends React.Component {
           margin="small"
           style={{
             width:"100%", 
-            height: "100"
+            height: "100px"
           }}>
             <Label align="center">Of zoek in al onze heerlijke recepten!</Label>
         </Box>
@@ -209,6 +196,7 @@ class RecipeList extends React.Component {
               }}
             />
           </Box>
+          <div ref={this.scroller}/>
         </Box>
         <Box
           size="auto"
@@ -296,10 +284,9 @@ class RecipeList extends React.Component {
                       borderStyle: "groove ridge ridge groove",
                       borderRadius: "12px",
                       width:"100%", 
-                      height: "250",
+                      height: "250px",
                       objectFit: "cover" 
                     }}
-                    resizeMode="cover"
                   />
                   <Image
                     src={recipe.vegan ? "/vegan_icon_final.png" : "/vega_icon_final.png"}
@@ -318,7 +305,7 @@ class RecipeList extends React.Component {
                     margin="small"
                     style={{
                       width:"100%", 
-                      height: "100"
+                      height: "100px"
                     }}>
                       <Label align="center">{recipe.title}</Label>
                   </Box>
@@ -346,7 +333,7 @@ class RecipeList extends React.Component {
               if (this.state.page > 1) { 
                 this.setState({ page: this.state.page - 1 })
               } 
-              this.onClick.bind(this)
+              window.scrollTo(0, this.scroller.current.offsetTop)  
             }
             }
         
@@ -359,7 +346,7 @@ class RecipeList extends React.Component {
               if (this.state.recipes.length / MAX_RECIPES_ON_PAGE > this.state.page) { 
                 this.setState({ page: this.state.page + 1 })
               } 
-              this.onClick.bind(this)
+              window.scrollTo(0, this.scroller.current.offsetTop)  
             }
           }
           />
