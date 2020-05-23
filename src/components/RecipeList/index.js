@@ -7,6 +7,7 @@ import Anchor from "grommet/components/Anchor";
 import TextInput from "grommet/components/TextInput";
 import Select from "grommet/components/Select";
 import Paragraph from "grommet/components/Paragraph";
+import Label from "grommet/components/Label";
 import Cafeteria from "grommet/components/icons/base/Cafeteria";
 import CaretBack from 'grommet/components/icons/base/CaretBack';
 import CaretNext from 'grommet/components/icons/base/CaretNext';
@@ -27,6 +28,8 @@ function getColor(id) {
   // blauw, okergeel, oranje, paars, groen, roze, turqoise
   return colors[(id) % 7];
 }
+
+let MAX_RECIPES_ON_PAGE = 6
 
 class RecipeList extends React.Component {
   constructor() {
@@ -164,7 +167,7 @@ class RecipeList extends React.Component {
             label=".. Volgende"
             primary={true}
             onClick={() => { 
-              if (this.state.recipes.length / 9 > this.state.page) { 
+              if (this.state.recipes.length / MAX_RECIPES_ON_PAGE > this.state.page) { 
                 this.setState({ page: this.state.page + 1 })
               } 
             }
@@ -183,7 +186,7 @@ class RecipeList extends React.Component {
                 <Paragraph><i>Geen resultaten, zoek iets anders...</i></Paragraph>
               </Box> }
           {!this.state.isLoading &&
-            this.state.recipes.slice((this.state.page - 1) * 9, this.state.page * 9).map(recipe => (
+            this.state.recipes.slice((this.state.page - 1) * MAX_RECIPES_ON_PAGE, this.state.page * MAX_RECIPES_ON_PAGE).map(recipe => (
               <Box
                 key={recipe.id}
                 align="center"
@@ -206,16 +209,19 @@ class RecipeList extends React.Component {
                     position: "relative"
                   }}
                 >
-
                   <Image
                     full="full"
                     src={recipe.img}
                     size="large"
-                    caption={recipe.title}
+                    // caption={  }
                     style={{
                       borderStyle: "groove ridge ridge groove",
-                      borderRadius: "12px"
+                      borderRadius: "12px",
+                      width:"100%", 
+                      height: "250",
+                      objectFit: "cover" 
                     }}
+                    resizeMode="cover"
                   />
                   <Image
                     src={recipe.vegan ? "/vegan_icon_final.png" : "/vega_icon_final.png"}
@@ -228,6 +234,16 @@ class RecipeList extends React.Component {
                       height: "auto"
                     }}
                   />
+                  <Box align="center"
+                    justify="center"
+                    pad="small"
+                    margin="small"
+                    style={{
+                      width:"100%", 
+                      height: "100"
+                    }}>
+                      <Label align="center">{recipe.title}</Label>
+                  </Box>
                 </Link>
                 <Anchor
                   icon={<Cafeteria style={{ stroke: "white" }} />}
@@ -261,7 +277,7 @@ class RecipeList extends React.Component {
             label=".. Volgende"
             primary={true}
             onClick={() => { 
-              if (this.state.recipes.length / 9 > this.state.page) { 
+              if (this.state.recipes.length / MAX_RECIPES_ON_PAGE > this.state.page) { 
                 this.setState({ page: this.state.page + 1 })
               } 
               window.scrollTo(0, 450);
