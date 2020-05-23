@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Box from "grommet/components/Box";
 import Button from "grommet/components/Button";
 import Columns from "grommet/components/Columns";
@@ -34,13 +34,29 @@ let MAX_RECIPES_ON_PAGE = 6
 class RecipeList extends React.Component {
   constructor() {
     super();
+
+    // this.scroller = null;
+
+    // this.setScrollerRef = (element) => {
+    //   console.log(element)
+    //   this.scroller = element;
+    // };
+    // this.focusScroller = () => {
+    //   if (this.scroller) this.scroller.focus();
+    // };
+
     this.state = {
       isLoading: true,
       recipes: [],
+      latest3recipes: [],
       search: '',
       type: '',
       page: 1
     };
+  }
+
+  onClick() {
+    this.inputRef.focus();
   }
 
   getRecipes() {
@@ -51,23 +67,122 @@ class RecipeList extends React.Component {
       .then(data =>
         this.setState({
           recipes: data.data,
-          isLoading: false,
           page: 1
         })
       );
-    
+  }
+
+  getAllRecipes() {
+    fetch(`http://veganwinners.com/api/recipes/approved/*/typed/Alle`)
+      .then(response => response.json())
+      .then(data =>
+        this.setState({
+          recipes: data.data.slice(3,),
+          latest3recipes: data.data.slice(0,3),
+          isLoading: false
+        })
+      );
   }
 
   componentDidMount() {
-    this.getRecipes();
+    this.getAllRecipes();
   }
 
   render() {
     return (
       <Box>
+        <Box align="center"
+          justify="center"
+          pad="small"
+          margin="small"
+          style={{
+            width:"100%", 
+            height: "100"
+          }}>
+            <Label ref={ref => { this.inputRef = ref; }} align="center"><i>Zin in iets lekkers?</i><br/>Dit zijn de 3 nieuwste recepten op Veganwinners!</Label>
+        </Box>
+        <Columns size="medium" justify="center" maxCount={3}>
+          {this.state.isLoading && <Spinning />}
+          {!this.state.isLoading &&
+            this.state.latest3recipes.map(recipe => (
+              <Box
+                key={recipe.id}
+                align="center"
+                justify="center"
+                pad="small"
+                margin="small"
+                style={{
+                  backgroundColor: getColor(recipe.id),
+                  boxShadow: "7px 7px 5px #B0BEC5",
+                  borderColor: "#B0BEC5",
+                  borderRadius: "12px"
+                }}
+              >
+                <Link
+                  to={{ pathname: `/recipe/${recipe.id}` }}
+                  style={{
+                    textDecoration: "none",
+                    color: "#FFFFFF",
+                    fontWeight: "600",
+                    position: "relative"
+                  }}
+                >
+                  <Image
+                    full="full"
+                    src={recipe.img}
+                    size="large"
+                    style={{
+                      borderStyle: "groove ridge ridge groove",
+                      borderRadius: "12px",
+                      width:"100%", 
+                      height: "250",
+                      objectFit: "cover" 
+                    }}
+                    resizeMode="cover"
+                  />
+                  <Image
+                    src={recipe.vegan ? "/vegan_icon_final.png" : "/vega_icon_final.png"}
+                    size="small"
+                    style={{
+                      position: "absolute",
+                      left: 10,
+                      top: 10,
+                      width: "20%",
+                      height: "auto"
+                    }}
+                  />
+                  <Box align="center"
+                    justify="center"
+                    pad="small"
+                    margin="small"
+                    style={{
+                      width:"100%", 
+                      height: "100"
+                    }}>
+                      <Label align="center">{recipe.title}</Label>
+                  </Box>
+                </Link>
+                <Anchor
+                  icon={<Cafeteria style={{ stroke: "white" }} />}
+                  label={" " + recipe.type}
+                  path={{ path: `/recipe/${recipe.id}` }}
+                />
+              </Box>
+            ))}
+        </Columns>
+        <Box align="center"
+          justify="center"
+          pad="small"
+          margin="small"
+          style={{
+            width:"100%", 
+            height: "100"
+          }}>
+            <Label align="center">Of zoek in al onze heerlijke recepten!</Label>
+        </Box>
         <Box
           size="auto"
-          direction="row"
+          direction="column"
           align="center"
           justify="center"
           pad="small"
@@ -81,7 +196,7 @@ class RecipeList extends React.Component {
               onChange={async e => { await this.setState({ type: e.value })}}
             />
           </Box>
-          <Box size="xsmall" />
+          <Box size="xsmall" pad="small" />
           <Box size="medium">
             <TextInput autoFocus
               placeHolder='optioneel: vrij zoeken'
@@ -108,43 +223,7 @@ class RecipeList extends React.Component {
             onClick={() => this.getRecipes()}
           />
         </Box>
-        <Box direction="row"
-          align="center"
-          justify="center">
-          <Box direction="row"
-            align="center"
-            justify="center"
-            style={{
-              flexDirection: "row"
-            }}>
-            <Image
-              src={"/vegan_icon_final.png"}
-              size="small"
-              style={{
-                width: "60",
-                height: "auto"
-              }}
-            />
-            <Paragraph>= veganistisch</Paragraph>
-          </Box>
-          <Box direction="row"
-            align="center"
-            justify="center"
-            style={{
-              flexDirection: "row"
-            }}>
-            <Image
-              src={"/vega_icon_final.png"}
-              size="xsmall"
-              style={{
-                width: "60",
-                height: "auto"
-              }}
-            />
-            <Paragraph>= vegetarisch</Paragraph>
-          </Box>
-        </Box>
-        <Box
+        <Box 
           size="auto"
           direction="column"
           align="center"
@@ -213,7 +292,6 @@ class RecipeList extends React.Component {
                     full="full"
                     src={recipe.img}
                     size="large"
-                    // caption={  }
                     style={{
                       borderStyle: "groove ridge ridge groove",
                       borderRadius: "12px",
@@ -230,7 +308,7 @@ class RecipeList extends React.Component {
                       position: "absolute",
                       left: 10,
                       top: 10,
-                      width: "20%",
+                      width: "25%",
                       height: "auto"
                     }}
                   />
@@ -268,9 +346,10 @@ class RecipeList extends React.Component {
               if (this.state.page > 1) { 
                 this.setState({ page: this.state.page - 1 })
               } 
-              window.scrollTo(0, 450);
+              this.onClick.bind(this)
             }
-          }
+            }
+        
           />
           <Anchor
             icon={<CaretNext/>}
@@ -280,7 +359,7 @@ class RecipeList extends React.Component {
               if (this.state.recipes.length / MAX_RECIPES_ON_PAGE > this.state.page) { 
                 this.setState({ page: this.state.page + 1 })
               } 
-              window.scrollTo(0, 450);
+              this.onClick.bind(this)
             }
           }
           />
