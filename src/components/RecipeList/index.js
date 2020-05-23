@@ -8,6 +8,8 @@ import TextInput from "grommet/components/TextInput";
 import Select from "grommet/components/Select";
 import Paragraph from "grommet/components/Paragraph";
 import Cafeteria from "grommet/components/icons/base/Cafeteria";
+import CaretBack from 'grommet/components/icons/base/CaretBack';
+import CaretNext from 'grommet/components/icons/base/CaretNext';
 import { Link } from "react-router-dom";
 import Spinning from "grommet/components/icons/Spinning";
 import { recipeTypes } from "./RecipeTypes";
@@ -33,7 +35,8 @@ class RecipeList extends React.Component {
       isLoading: true,
       recipes: [],
       search: '',
-      type: ''
+      type: '',
+      page: 1
     };
   }
 
@@ -45,10 +48,11 @@ class RecipeList extends React.Component {
       .then(data =>
         this.setState({
           recipes: data.data,
-          isLoading: false
+          isLoading: false,
+          page: 1
         })
       );
-    console.log(this.state.recipes)
+    
   }
 
   componentDidMount() {
@@ -66,7 +70,7 @@ class RecipeList extends React.Component {
           pad="small"
         >
           <Box size="medium">
-          <Select placeHolder='optioneel: soort gerecht'
+            <Select placeHolder='optioneel: soort gerecht'
               inline={false}
               multiple={false}
               options={["Alle"].concat(recipeTypes)}
@@ -137,6 +141,36 @@ class RecipeList extends React.Component {
             <Paragraph>= vegetarisch</Paragraph>
           </Box>
         </Box>
+        <Box
+          size="auto"
+          direction="column"
+          align="center"
+          justify="center"
+          pad="small"
+        >
+          <Anchor
+            icon={<CaretBack/>}
+            label="....... Vorige"
+            primary={true}
+            onClick={() => { 
+              if (this.state.page > 1) { 
+                this.setState({ page: this.state.page - 1 })
+              } 
+            }
+          }
+          />
+          <Anchor
+            icon={<CaretNext/>}
+            label=".. Volgende"
+            primary={true}
+            onClick={() => { 
+              if (this.state.recipes.length / 9 > this.state.page) { 
+                this.setState({ page: this.state.page + 1 })
+              } 
+            }
+          }
+          />
+        </Box>
         <Columns size="medium" justify="center" maxCount={3}>
           {this.state.isLoading && <Spinning />}
           {!this.state.isLoading && this.state.recipes.length == 0 && 
@@ -149,7 +183,7 @@ class RecipeList extends React.Component {
                 <Paragraph><i>Geen resultaten, zoek iets anders...</i></Paragraph>
               </Box> }
           {!this.state.isLoading &&
-            this.state.recipes.map(recipe => (
+            this.state.recipes.slice((this.state.page - 1) * 9, this.state.page * 9).map(recipe => (
               <Box
                 key={recipe.id}
                 align="center"
@@ -172,7 +206,9 @@ class RecipeList extends React.Component {
                     position: "relative"
                   }}
                 >
+
                   <Image
+                    full="full"
                     src={recipe.img}
                     size="large"
                     caption={recipe.title}
@@ -201,6 +237,38 @@ class RecipeList extends React.Component {
               </Box>
             ))}
         </Columns>
+        <Box
+          size="auto"
+          direction="column"
+          align="center"
+          justify="center"
+          pad="small"
+        >
+          <Anchor
+            icon={<CaretBack/>}
+            label="....... Vorige"
+            primary={true}
+            onClick={() => { 
+              if (this.state.page > 1) { 
+                this.setState({ page: this.state.page - 1 })
+              } 
+              window.scrollTo(0, 450);
+            }
+          }
+          />
+          <Anchor
+            icon={<CaretNext/>}
+            label=".. Volgende"
+            primary={true}
+            onClick={() => { 
+              if (this.state.recipes.length / 9 > this.state.page) { 
+                this.setState({ page: this.state.page + 1 })
+              } 
+              window.scrollTo(0, 450);
+            }
+          }
+          />
+        </Box>
       </Box>
     );
   }

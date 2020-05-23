@@ -9,7 +9,7 @@ class Home extends React.Component {
   render() {
     return (
       <Box responsive="true">
-        <WelcomeMessage />
+        {/* <WelcomeMessage /> */}
         <Box pad="medium">
           <Headline align="center" strong={true} colorIndex="accent-3">
             <Image src="/img/veganwinners.svg" size="medium" />
