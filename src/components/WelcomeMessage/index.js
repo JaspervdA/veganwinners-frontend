@@ -2,7 +2,7 @@ import React from 'react';
 import Toast from 'grommet/components/Toast';
 
 export default () => (
-  <Toast status='ok'>
-    Het is nu makkelijker om te zoeken door de recepten!
+  <Toast>
+    <a href="/reaction">Klik hier om te laten weten wat je vindt van de nieuwe home pagina!</a>
   </Toast>
 )

@@ -28,6 +28,7 @@ class MenuBar extends React.Component {
             <Anchor path={"/"}>Terug naar alle recepten!</Anchor>
             <Anchor path={"/add"}>Recept toevoegen</Anchor>
             <Anchor path={"/about"}>Over Veganwinners</Anchor>
+            <Anchor path={"/reaction"}>Geef jouw feedback!</Anchor>
           </Menu>
         </Box>
       </Header>

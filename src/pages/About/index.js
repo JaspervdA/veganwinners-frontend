@@ -21,7 +21,7 @@ class About extends React.Component {
           een platform dient om vegetarische en veganistische recepten met elkaar te delen.
           Veel plezier met koken en eet smakelijk!
         </Paragraph>
-        <Image src="https://res.cloudinary.com/dsu60ie3p/image/upload/v1529655323/dan-gold-298710-unsplash-c_scale_w_820.jpg" size="large" />
+        <Image src="/img/about.jpg" size="large" />
         <Paragraph size="medium">
           {' '}
           Voor vragen en op- of aanmerkingen kun je ons{' '}
@@ -29,7 +29,7 @@ class About extends React.Component {
           mailing lijst wilt voor recepten updates, mail ons dan ook!<br />
           <br />
           Verder is onze website volledig open source. Wij staan open voor
-          feedback en feature request!
+          feedback en feature requests!
         </Paragraph>
       </Box>
     );
