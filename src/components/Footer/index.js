@@ -14,7 +14,7 @@ export default () => (
     </Title></Box>
     <Box direction="row" align="center" pad={{ between: "medium" }}>
       <Paragraph margin="none">
-        <Anchor href="mailto:ellissa@veganwinners.com">Contact</Anchor>
+        <Anchor href="/reaction">Contact</Anchor>
       </Paragraph>
       <Anchor
         icon={<Github />}

@@ -24,9 +24,8 @@ class About extends React.Component {
         <Image src="/img/about.jpg" size="large" />
         <Paragraph size="medium">
           {' '}
-          Voor vragen en op- of aanmerkingen kun je ons{' '}
-          <a href="mailto:ellissa@veganwinners.com">mailen</a>. Als je op de
-          mailing lijst wilt voor recepten updates, mail ons dan ook!<br />
+          Vragen en op- of aanmerkingen kun je altijd <b><a href="/reaction">hier</a></b> met ons delen. 
+          Als je op de mailing lijst wilt voor recepten updates, kun je het ons ook <b><a href="/reaction">daar</a></b> laten weten!<br />
           <br />
           Verder is onze website volledig open source. Wij staan open voor
           feedback en feature requests!
