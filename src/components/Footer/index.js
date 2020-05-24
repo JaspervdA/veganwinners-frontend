@@ -9,9 +9,9 @@ import Github from "grommet/components/icons/base/SocialGithub";
 
 export default () => (
   <Footer justify="between" align="center" size="large" pad="medium">
-    <Title>
+    <Box><Title>
       <Image src="/img/veganwinners.svg" size="small" />
-    </Title>
+    </Title></Box>
     <Box direction="row" align="center" pad={{ between: "medium" }}>
       <Paragraph margin="none">
         <Anchor href="mailto:ellissa@veganwinners.com">Contact</Anchor>
