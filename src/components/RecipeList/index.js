@@ -185,7 +185,7 @@ class RecipeList extends React.Component {
           </Box>
           <Box size="xsmall" pad="small" />
           <Box size="medium">
-            <TextInput autoFocus
+            <TextInput
               placeHolder='optioneel: vrij zoeken'
               value={this.state.search}
               onDOMChange={async e => { await this.setState({ search: e.target.value }) }}
