@@ -2,6 +2,7 @@ import React from "react";
 import WelcomeMessage from "../../components/WelcomeMessage";
 import RecipeList from "../../components/RecipeList";
 import Box from "grommet/components/Box";
+import Label from "grommet/components/Label";
 import Headline from "grommet/components/Headline";
 import Image from "grommet/components/Image";
 
