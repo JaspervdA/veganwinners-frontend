@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "ajv": "^6.10.2",
+    "ajv": "^6.12.3",
     "babel-eslint": "^7.2.3",
     "babel-polyfill": "^6.26.0",
     "bufferutil": "^4.0.1",
